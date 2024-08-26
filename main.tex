@@ -1,14 +1,18 @@
 
 \documentclass{article}
 \usepackage[utf8]{inputenc}
+
+% Setting for formatting title page
 \usepackage{titling}
+\renewcommand\maketitlehooka{\null\mbox{}\vfill}
+\renewcommand\maketitlehookd{\vfill\null}
 
 \PassOptionsToPackage{hyphens}{url}\usepackage{hyperref} % URLs
 \usepackage{amsmath} % For maths
+\usepackage{amsfonts} % For some maths fonts e.g. double struck
 \usepackage{palatino} % Font
 \usepackage[margin = 3.81cm]{geometry} % Set margins
 \usepackage{parskip} % Space between paragraphs
-\usepackage{amsfonts}
 
 % Packages for tables
 \usepackage{makecell} % For tables
@@ -25,100 +29,100 @@
 \usepackage[authordate, backend = biber, isbn = false, maxcitenames = 2, style = apa]{biblatex}
 \addbibresource{scr-bib.bib} 
 
-\title{International Implications of Industrial Policies for Supply Chain Resilience}
+\title{Global Implications of Industrial Policies for \\ Supply Chain Resilience}
 \author{Sam Hardwick}
-\date{Draft Last Updated: 23 August 2024}
+\date{Draft last updated: 25 August 2024}
 
 \begin{document}
 
 \begin{titlingpage}
     \maketitle
     \begin{abstract}
-        Governments are increasingly pursuing industrial policies with supply chain resilience as their stated objective. These policies can have both positive and negative welfare implications, domestically and internationally. We outline key cases for and against using industrial policies for supply chain resilience and provide an overview of current issues regarding the international governance of these policies. We then present a simple three-country model with sequential production to shed light on typical policies and their international spillovers. We conclude by discussing some proposals for cooperation on governing supply chain resilience policies internationally.
+        Governments are increasingly pursuing industrial policies with supply chain resilience as their stated objective. We review the theoretical grounds for such policies, their current implementation, and their governance under world trade rules. To analyse international spillovers from these policies, we present a simple three-country model with sequential production and random supply disruptions. Four simulated examples are provided: entry subsidies, production subsidies, input tariffs, and export bans. Entry subsidies tend to reduce supply volatility but at relatively high cost to the subsidiser. Small production subsidies can increase global welfare and supply but do not necessarily reduce volatility. Tariffs follow a familiar prisoner's dilemma dynamic. Export bans aiming to minimise supply chain risk can resemble zero-sum games between producing countries with globally unfavourable outcomes in the absence of cooperation. We conclude by positing some rules of thumb for resilience policy, emphasising the importance of competition, appropriate instrument selection, and focusing on essential and vulnerable sectors. Internationally, we suggest potential benefits from expanding data collection and the independent monitoring of GVCs in critical sectors, before reviewing WTO reform proposals that might better accommodate resilience concerns.
     \end{abstract}
 \end{titlingpage}
 
 \section{Introduction}
 
-Industrial policies in major economies have proliferated in size and number. The trend has been particularly pronounced for high-income countries since 2020 \parencite{ilyina_industrial_2024}. The industrial policy upsurge has coincided with and responded to a growing policy interest in supply chain resilience in the wake of the COVID-19 pandemic and amid deepening great power rivalry.
+Around the world, industrial policies have proliferated in size and number, with a particularly steep uptick among high-income countries since 2020 \parencite{ilyina_industrial_2024}. This trend has coincided with, and responded to, a growing policy interest in supply chain resilience, reflecting supply challenges in the depths of the COVID-19 pandemic as well as security anxieties arising from great power rivalry.
 
-COVID-19 showed that global value chains (GVCs) are susceptible to disruption and that shocks to downstream or upstream sectors can reverberate throughout the chain, sometimes with macroeconomic consequences. As pandemic risks abated, geopolitical and security-driven risks to supply chains became the object of focus. At the same time, risks related to climate change and extreme weather events have continued to rise.
+The pandemic demonstrated that global value chains (GVCs) are susceptible to disruption and that shocks to downstream or upstream sectors can reverberate throughout the chain, with consequences macroeconomic in scale. As pandemic risks have abated, geopolitical and security-driven risks to supply chains have become the object of focus. Simultaneously, risks related to climate change and extreme weather events have continued to rise.
+
+[insert chart on industrial policy proliferation]
 
 To what extent are industrial policies for supply chain resilience justified? Economists have tended to approach industrial policy with a dose of scepticism. At the same time, the field has always been concerned with identifying and recognising market failures that present a role for public policy. The literature and public discussion about supply chain resilience exemplifies both.
 
-While shocks are transmitted through GVCs, as a key macroeconomic study of pandemic lockdowns points out, 'renationalising' these chains does not, in general, make economies more resilient to those shocks \parencite{bonadio_global_2021}. Access to international trade is a buffer against domestic shocks and access to multilateral trade is a buffer against bilateral shocks. (Also mention Caselli et al here.) The astonishing rebound of global merchandise trade in 2022 suggests that GVCs were probably more resilient than they may have appeared.
+While shocks are transmitted through GVCs, 'renationalising' these chains does not, in general, make economies more resilient to those shocks, as a major study of COVID-19 labour shocks points out \parencite{bonadio_global_2021}. Access to international trade is a buffer against domestic shocks and access to multilateral trade is a buffer against bilateral shocks. (Also mention \textcite{caselli_diversification_2020} here.) The astonishing rebound of global merchandise trade in 2022 suggests that GVCs were probably more resilient than they may have appeared.
 
-Research since the pandemic has also pointed to conditions in supply networks which may give rise to market failures or which make shocks more likely to propagate. These include externalities that cause insufficient firm entry, bottleneck firms that systematically underproduce inputs, and regulatory or informational issues that discourage investment in risk management (cite Elliott and Golub review, your review, key papers in footnotes). With some notable exceptions, like Grossman JPE (cite) or the PC's report, this research has tended not to address questions of optimal public policy, beyond sometimes pointing to a general role for it.
+Research since the pandemic has also pointed to conditions in GVCs or supply networks which may give rise to market failures or which make economic shocks more likely to propagate. Some network structures are more fragile than others. The entry of new firms in a network prone to disruption is a positive externality that markets may fail to price in. Bottleneck firms might systematically underproduce inputs, and regulatory or informational barriers might discourage efficient investment in risk management (cite Elliott and Golub review, your review, key papers in footnotes). With some notable exceptions, like Grossman JPE (cite) or the PC's report, this research has tended not to address questions of optimal public policy, beyond sometimes pointing to a general role for it.
 
 As this literature has grown, so has the footprint of industrial policies on the global economy. In particular, it is evident that subsidies, first-best or otherwise, will play a central role in driving the green energy transition, a phenomenon which is reorganising GVCs. These developments have intensified interest in supply chain resilience and industrial policy as governments seek both energy security and market power in the future low-carbon global economy. This economy demands inputs that today are concentrated in few hands: not just the critical minerals used in electric vehicles (EVs) and green energy generation, but specialised inputs to those green technologies.
 
-The desire for diversification has been a stated motive for recent industrial policies in some countries, sometimes based on national security concerns. But diversification is not necessarily resilience, particularly if it means sacrificing optimal technology, if it comes at the price of other productive activities, or if it is pursued in a way that raises trade uncertainty or sparks retaliation. Similarly, the impacts of industrial policies on supply chain resilience are not clear cut. There are negative and positive spillovers to consider, domestically and globally. A central question, posed by \textcite{bown_modern_2024}, is whether optimal supply chain resilience policy from a domestic standpoint differs to that from a global standpoint.
+The desire for diversification has been a stated motive for recent industrial policies in some countries, often based on national security concerns. But diversification, though related to resilience, is not equivalent to it---particularly if diversifying means sacrificing optimal technology, if it comes at the price of other productive activities, or if it is pursued in a way that raises trade uncertainty or sparks retaliation. Likewise, the impacts of industrial policies on supply chain resilience are not clear cut. There are negative and positive spillovers to consider, domestically and globally. A central question, posed by \textcite{bown_modern_2024}, is whether optimal supply chain resilience policy from a domestic standpoint differs to that from a global standpoint.
 
-To contribute to answering that question, and to better understand these policies and spillovers, we proceed as follows. The next section reviews the theoretical grounds for policies to manage supply chain risk and the ways in which these policies are governed internationally, particularly in the multilateral trading system. We then present a simple three-country model with sequential production to illustrate potential international spillovers of industrial policies, both on conventional measures of economic welfare as well as on the variance of final supply of a product, since the latter may be important from a risk tolerance perspective. We simulate four policy examples: entry subsidies for input producers, specific production subsidies, tariffs on inputs, and export bans on inputs. 
+To contribute to answering that question, and to better understand these policies and spillovers, we proceed as follows. The next section reviews the theoretical grounds for policies to manage supply chain risk, which policies countries are using or might use to do so, and the ways in which these policies are governed in the world trading system. We then present a simple three-country model with sequential production and random supply disruptions to explore these policies and illustrate their potential international spillovers. As performance indicators, we look both at conventional measures of economic welfare as well as the variation of final supply of a product. We simulate four policy examples: entry subsidies for input producers, specific production subsidies, tariffs on inputs, and export bans on inputs.
 
-The policy examples reflect and extend earlier findings on similar models, including the existence of a small optimal entry subsidy. Subsidies that target entry costs alone preserve the international composition of production while encouraging new firms, thus reducing disruption risk, though at a cost to the subsidiser. Small production subsidies can increase global welfare and supply, especially if they are pursued by both producing countries, though they do not make final supply less volatile. Tariffs exhibit a familiar prisoner's dilemma structure, pointing to a non-cooperative equilibrium that lowers welfare and supply without offering reduced variation. Export bans can take on a zero-sum form with globally inefficient outcomes without cooperation.
+The policy examples reflect and extend findings from trade policy models without disruption risk. Subsidies that target entry costs alone preserve the international composition of production while encouraging new firms, thus reducing disruption risk, though at a large cost to the subsidiser. Small production subsidies can increase global welfare and supply---most effectively if applied in tandem rather than unilaterally---though they do not make final supply less volatile. Tariffs exhibit a familiar prisoner's dilemma game, pointing to a non-cooperative equilibrium that lowers welfare and supply without offering reduced variation of final supply. Export bans can take on a zero-sum form with globally inefficient outcomes absent cooperation.
 
-In light of these theoretical results, we conclude by discussing some active policy proposals for international cooperation on supply chain resilience, and where these efforts may be best directed. Finally, we suggest some potential directions for future research.
-
-Still to cite: Bagwell and Lee, 2018; Bown review paper (recent one).
+In light of these examples, we conclude by discussing some active policy proposals for international cooperation on supply chain resilience, and where these efforts may be best directed. Finally, we suggest directions for future research.
 
 \section{Background: Industry policy, supply chain resilience and the multilateral trading system}
 
 \subsection{For and against industrial policy for supply chain resilience}
 
-There are several well-known economic arguments for industrial policy at a domestic level. (Following Harrison and Rodríguez-Clare (2010) and Bown (2024), we will think of industrial policy in broad terms as deviation from policy neutrality.) Sometimes these arguments are based on internal economies of scale, such as learning by doing that occurs within a firm. More commonly, arguments refer to externalities. Benefits from technological development, knowledge generation or human capital advancement in one firm can spill over to others. In recent decades, more emphasis has been placed on industrial policy's role in discovering the costs and benefits of new economic activities, and in addressing coordination issues through public--private cooperation (Rodrik 2004).
+There are several well-known economic arguments for industrial policy at a domestic level. (Following \textcite{harrison_trade_2010} and \textcite{bown_modern_2024}, we will think of industrial policy in broad terms as deviation from policy neutrality.) Sometimes these arguments are based on internal economies of scale, such as learning by doing that occurs within a firm. More commonly, arguments refer to externalities. Benefits from technological development, knowledge generation or human capital advancement in one firm can spill over to others. In recent decades, more emphasis has been placed on industrial policy's role in discovering the costs and benefits of new economic activities, and in addressing coordination issues through public--private cooperation \parencite{rodrik_industrial_nodate}.
 
 In the subdomain of supply chain resilience, there further economic arguments for industrial policy, defined in this broad sense. All organisations and GVCs face some level of disruption risk, which can be thought of as the likelihood of some event that directly affects its usual functioning---its ability to deliver `the right products and services on time, with the required specifications, at the right place and to the right customer' (cite Carvalho et al 2012). Following Baldwin and Freeman (2022 cite), we can think of socially excessive risk as a situation where firms' decisions lead to a different bundle of risk and reward---reward such as cost savings---than public interest would demand. Socially excessive supply chain risk can be a symptom of traditional market imperfections. For example, industries with few new entrants are more likely to see bottleneck firms emerge (cite Carvalho et al. n.d.), which wield market power, restrict supply and concentrate risk.
 
-Another key example of potentially excessive supply chain risk is modelled by \textcite{bimpikis_supply_2019}. The authors show that, under certain conditions, the equilibrium number of entrants in a supply network may be lower than the number that maximises consumer surplus and profit. In an environment where firms face random disruptions, new firms, through the act of entry, benefit the rest of their supply network by diversifying supply or demand. Firms might be able to reap some of these external benefits---by profiting off their reputation as reliable suppliers, for example---but not all of them, absent some implausibly sophisticated contracting across every firm in a network.\footnote{Other potential sources of socially excessive risk are reviewed by Elliott and Golub (2022) and by Hardwick et al. (2024).} 
+Another key example of potentially excessive supply chain risk is modelled by \textcite{bimpikis_supply_2019}. The authors show that, under certain conditions, the equilibrium number of entrants in a supply network may be lower than the number that maximises consumer surplus and profit. In an environment where firms face random disruptions, new firms, through the act of entry, benefit the rest of their supply network by diversifying supply or demand. Firms might be able to reap some of these external benefits---by profiting off their reputation as reliable suppliers, for example---but not all of them, absent some implausibly sophisticated contracting across every firm in a network.\footnote{Other potential sources of socially excessive risk are reviewed by \textcite{elliott_networks_2022} and \textcite{hardwick_policy_2024}.} 
 
 Conversely, there are areas where exposure to supply chain risk may appear high, but there is not a clear policy rationale for addressing it directly. In some cases, there may be a trade-off between a lengthy, high value-adding GVC and a shorter, more expensive, less volatile one (cite Levine 2012). Some network structures, the patterns of interconnection between firms, have been shown to propagate shocks more intensely than others (cite Todo and Inoue 2019). Yet there is no case in principle for intervention unless that intervention might be expected to bring about a socially superior balance of risk.
 
-On that basis, as the Australian Productivity Commission (cite 2021?) has outlined, policies to improve supply chain resilience are best targeted at vulnerable and essential products, where public risk appetites are lowest. `Essential' may be an ambiguous concept, but one that governments regularly deal with; for example, in strategising for disaster management or maintaining pharmaceutical or energy stockpiles. As vulnerability (or exposure to risk) and essentiality decline, private risk management is more likely to suffice. 
+On that basis, as the Australian \textcite{productivity_commission_vulnerable_2021} has outlined, policies to improve supply chain resilience are best targeted at vulnerable and essential products, where public risk appetites are lowest. `Essential' may be an ambiguous concept, but one that governments regularly deal with; for example, in strategising for disaster management or maintaining pharmaceutical or energy stockpiles. As vulnerability (or exposure to risk) and essentiality decline, private risk management is more likely to suffice. 
 
-The role of entry barriers in generating supply chain risk suggests that industrial policy is more likely to aid resilience if it permits or encourages competition and new entrants. A corollary is that policies are more likely to reduce resilience if they limit competition, either by restricting entry or favouring non-competitive incumbents. Evidence from China indicates that subsidies to more (less) competitive sectors are more likely to boost (reduce) productivity (Aghion et al. 2015). In Japan, sectors that benefited from industrial policy (in the 1970s and 80s, confirm) tended to succeed if there was significant competition (Porter and Sakakibara 2004).
+The role of entry barriers in generating supply chain risk suggests that industrial policy is more likely to aid resilience if it permits or encourages competition and new entrants. A corollary is that policies are more likely to reduce resilience if they limit competition, either by restricting entry or favouring non-competitive incumbents. Evidence from China indicates that subsidies to more (less) competitive sectors are more likely to boost (reduce) productivity \parencite{aghion_industrial_2015}. In Japan, sectors that benefited from industrial policy (in the 1970s and 80s, confirm) tended to succeed if there was significant competition \parencite{porter_competition_2004}.
 
 Concentration of production by country is a flawed but informative proxy for the competition issues that can lead to vulnerability. Concentrated production does not inherently mean there are barriers to entering and producing. It may be a temporary but desirable result of a firm or set of firms innovating. In some cases, however, concentration is a signal of vulnerability to shocks (e.g. some PPE or diesel exhaust fluid from China). In these cases, alternative suppliers cannot enter or scale up quickly enough to deliver the socially optimal response. Reducing risk could take the form of diversification, including through subsidies or agreements with third countries, or other risk management strategies, like emergency stockpiling and data sharing.
 
-Choice of instrument matters and depends on institutional context. Subsidies and trade levers, though still common, are not the only tools available. Others (e.g. infrastructure, manufacturing extension, specialised training) may better serve competition and productivity goals (Juhász et al. 2023). Some instruments and levers are both obtuse and involve greater direct welfare loss to the global community (e.g. export restrictions). Trade agreements, commercial diplomacy and regulatory reform may all be beneficial for supply chain resilience to the extent that they address barriers to alternative sources of supply and demand. Sometimes more targeted, security-oriented policies like stockpiling may be reasonable alternatives, if storage and other costs are low enough.
+Choice of instrument matters and depends on institutional context. Subsidies and trade levers, though still common, are not the only tools available. Others (e.g. infrastructure, manufacturing extension, specialised training) may better serve competition and productivity goals \parencite{juhasz_new_2023}. Some instruments and levers are both obtuse and involve greater direct welfare loss to the global community (e.g. export restrictions). Trade agreements, commercial diplomacy and regulatory reform may all be beneficial for supply chain resilience to the extent that they address barriers to alternative sources of supply and demand. Sometimes more targeted, security-oriented policies like stockpiling may be reasonable alternatives, if storage and other costs are low enough. [Mention urea debacle and Australia's response?]
+
+[insert chart of industrial policy by instrument]
 
 Industrial policies have positive and negative international spillovers for supply chain resilience. On the positive side, industrial policies may accelerate the development of technology which, with sufficient factor mobility, spreads internationally. They may facilitate new exporters, diversifying the supply or customer base. On the negative side, they may erode international competition, including by limiting export-competing countries’ access to third markets. These effects lower resilience by limiting the ability of new supply to enter. They may lead to wasteful subsidies races: if one country subsidises, its competitor may be forced to subsidise too or exit markets.
 
-Beyond subsidies, other policy instruments may have more direct implications for supply chain resilience. Local content requirements may impede responses to shocks by removing alternative supply options, or at least by delaying the ability to adjust. Export bans similarly remove an input source from global markets. Cooperation is needed to identify and measure these spillovers to inform multilateral subsidy rules, especially where trade and climate change imperatives interact (Bown 2023).
+Beyond subsidies, other policy instruments may have more direct implications for supply chain resilience. Local content requirements may impede responses to shocks by removing alternative supply options, or at least by delaying the ability to adjust. Export bans similarly remove an input source from global markets. Cooperation is needed to identify and measure these spillovers to inform multilateral subsidy rules, especially where trade and climate change imperatives interact \parencite{bown_modern_2024}.
 
 \subsection{Supply chain resilience and the world trading system}
 
-This section briefly reviews the governance of industrial policy under the GATT and WTO and its implications for supply chain resilience. Regional and bilateral supply chain initiatives, which have proliferated but remain nascent in their activity. Ways to share information and plan crisis response. Urea debacle. When it comes to the WTO, views differ on how subsidies should be treated, but there is broad recognition of a need for better data, a better understanding of spillovers and a shared understanding of principles for subsidies governance.
+This section examines the complex relationship between supply chain resilience policies and the world trade system. As countries implement or consider measures to strengthen their supply chains, ranging from reshoring incentives to strategic stockpiling, these actions ripple through the global economy. While aimed at enhancing national security and economic stability, such policies may have far-reaching spillover effects on global trade patterns and international relations.
 
-Origin of the the MTS system itself is resilience policy. It is security--economic.
+The current world trade rules and regional arrangements offer a framework for disciplining supply chain policies, but questions remain about their adequacy in addressing modern challenges. The literature presents diverse perspectives on potential reforms to the trade system, with some scholars advocating for more flexibility in allowing resilience measures, while others caution against protectionism. China's pivotal role in global supply chains has sparked particular debate about whether it requires special consideration in policy formulation and trade rule adjustments.
 
-Driven partly by the need for green technology, there is growing recognition that trade rules should recognise certain subsidies as acceptable, first-best policies.
+The origins of the modern world trading system are deeply intertwined with security concerns, extending beyond purely economic considerations. The Atlantic Charter of 1941 laid the groundwork for a post-war order that emphasized both economic cooperation and collective security. This vision materialised in the GATT, which was part of a broader strategy to foster peace through economic interdependence. The founders believed that by reducing trade barriers and promoting economic cooperation, they could prevent the economic nationalism that had contributed to World War II. This security-oriented foundation carried through to the WTO.
 
-There is a range of views on how the WTO should approach industrial policy. At one end, Sykes (2003, 2010) argues the best approach to subsidies in the WTO may be retaining non-violation rules but otherwise going laissez-faire.
+Despite these historical foundations, the current state of the world trading system is marked by deadlock. US--China conflict has paralyzed the WTO, with the United States essentially stepping back from active participation. The question of whether reform can proceed through multilateral channels depends on what reforms are actually desirable, another open question. 
 
-Bagwell and Staiger.
+One potential way forward is to improve the system through plurilateral channels, including WTO plurilaterals, and possibly through separate agreements between the EU, China, and the United States in domains like the green energy transition. As \textcite{bown_how_2023} outline, such agreements could permit certain policies while agreeing to refrain from others, like export restrictions. The ongoing WTO panel case regarding Indonesia's export subsidies, which have been deemed illegal, highlights the complexity of these issues. Notably, both the US and China were third parties in this case, with the EU as the complainant.
 
-Hoekman and Nelson (2020) highlight the need for an international work program on to identify common principles (e.g. citizen welfare) and develop simple, robust rules of thumb for subsidies governance.
+On subsidies specifically, there has long been a range of views on how these should best be handled by multilateral trade roles. At one end, \textcite{sykes_subsidies_2005, sykes_questionable_2010} argues the best approach to subsidies in the WTO may be to retain the non-violation doctrine but otherwise go laissez-faire, given the difficulties of properly identifying subsidisation and of disentangling socially beneficial measures from protectionist ones. More generally, driven by the urgent need to innovate and manufacture green technology, there is growing recognition that trade rules should recognise certain subsidies as acceptable, first-best policies. 
 
-Bown and Hillman (2019), writing about China’s industrial policy, argue that work on measurement and identification of subsidies is critical. Beyond that, a ‘green/amber/red light’ system, with an expanded set of prohibited subsidies, would be ideal. They also raise an alternative approach of introducing competition policy concepts to the WTO (e.g. notifications on size and competition among large firms).
+\textcite{bagwell_will_2006} also point to flaws in WTO subsidy rules, in contrast to those of the GATT, on the grounds that they risk undermining tariff negotiations, potentially leading to less efficient market access expansion. \textcite{hoekman_rethinking_2020} highlight the need for an international work program on to identify common principles, such as citizen welfare as an objective, and develop simple, robust rules of thumb for subsidies governance.
 
-Bown and Clausing (2023), writing about US, European and Chinese climate policies, recommend broadly accepting subsidies while implementing some guardrails (e.g. prohibiting export restrictions and content requirements; minimising subsidies with competition spillovers). Raise Indonesia's downstreaming policies in this context.
+\textcite{bown_wtoing_2019}, writing about China’s industrial policy, point out that work on measurement and identification of subsidies is critical for adequate governance and reform. Beyond that, a ‘green/amber/red light’ system, with an expanded set of prohibited subsidies, would be ideal. They also raise an alternative approach of introducing competition policy concepts to the WTO (e.g. notifications on size and competition among large firms).
 
-Much discussion focuses on China. Shipbuilding example, which is a major effort towards measuring international impact of subsidies. Solar PV cell example. IEA. But compare with Danish support for wind tech. Broadly beneficial and transmitted through FDI. Key point: markets stayed open, including to investment. Multilateral trade held.
+Much of the discussion focuses on China. Shipbuilding example, which is a major effort towards measuring international impact of subsidies. Solar PV is maybe the main example other than steel. China has used industrial policy to develop solar PV manufacturing from the mid-2000s. By 2015, it had become the world’s top producer. There have been large, clear positive impacts on emissions reduction and innovation \parencite{xu_impact_2022}. At the same time, overcapacity issues, coupled with high concentration at firm and facility levels, have led to concerns about global supply chain risk \parencite{wang_why_2014, iea_global_2024}.
 
-China has used industrial policy to develop solar PV manufacturing from the mid-2000s. By 2015, it had become the world’s top producer. Support has taken the form of tax breaks, preferential lending, subsidised land from local governments, and cash grants from municipal and provincial governments (Houde and Wang 2022). There have been large, clear positive impacts on emissions reduction and innovation (Xu et al. 2022). At the same time, overcapacity issues, coupled with high concentration at firm and facility levels, have led to concerns about global supply chain risk (IEA 2022; Wang et al. 2014).  
+A useful comparison point is Denmark's use of industrial policy to become the world leader in manufacturing wind power generation technology. Denmark began producing wind turbines in the 1980s, supported by price guarantees and favourable tax treatment, though not by trade restrictions. Investment subsidies for turbines were removed during the 1980s, production subsidies in 2000 \parencite{de_la_porte_success_2022}. Studies suggest the subsidies enabled learning-by-doing effects and with benefits likely exceeding their future discounted costs \parencite{hansen_establishment_2003}.
 
-Denmark began producing wind turbines in the 1980s, supported by price guarantees and favourable tax treatment, though not by trade restrictions. Investment subsidies for turbines were removed during the 1980s, production subsidies in 2000 (van Est 2022). Studies suggest the subsidies enabled learning-by-doing effects and with benefits likely exceeding their future discounted costs (Hansen et al. 2003).   
+Danish technology and knowhow spread internationally, notably through FDI in Spain and Germany. In 2002, 92 per cent of exported wind turbines (by value) came from Denmark. By 2012, Germany accounted for 38 per cent, Denmark 22 per cent and Spain 13 per cent. Some of this reduction in Danish market share stemmed from overcapacity issues around the global financial crisis. Despite initially high concentration, concerns about competition and supply chain risk were muted---there appears to have been no US countervailing action or concerns voiced in IEA publications. Few in hindsight would consider Denmark's subsidy-enabled dominance of the sector to be a global public bad.
 
-Danish technology and knowhow spread internationally, notably through FDI in Spain and Germany. In 2002, 92 per cent of exported wind turbines (by value) came from Denmark. By 2012, Germany accounted for 38 per cent, Denmark 22 per cent and Spain 13 per cent. Some of this reduction in Danish market share stemmed from overcapacity issues around the global financial crisis. Despite initially high concentration, concerns about competition and supply chain risk were muted (e.g. no US trade action, no IEA commentary). 
-
-The need for better data and modelling on spillovers (on supply chain resilience and the much bigger problem of emissions reduction) is widely recognised as a priority. Next section presents a simple model to illustrate some of these spillovers.
+The question of which policies, under which underlying conditions, should be expected to generate net global benefits depends on the balance of the international spillover effects. These effects are often ambiguous and always multidimensional, with global welfare comprising the expected economic costs and benefits, the net supply chain risk, and (though out of scope for this paper) the environmental effects. The next section presents a simple model to illustrate some of these spillovers.
 
 \section{A model of trade with input disruptions}
 
-The model below serves to illustrate potential spillovers from industrial policies for supply chain resilience by providing some simple stylised examples. The aim is not to present sweeping or definitive policy conclusions, but to highlight some potential mechanisms through which one country's policies might help or harm others' resilience, and areas where international cooperation may lead to collective benefit. It also provides a novel approach to integrating stochastic supply chain risks into simple trade policy models.
+The model below serves to illustrate potential spillovers from industrial policies for supply chain resilience by providing some stylised examples. The aim is not to present sweeping policy conclusions but to highlight some mechanisms through which one country's policies might help or harm others' resilience, and areas where international cooperation may be needed to avoid lose-lose outcomes. It also provides a novel approach to integrating stochastic supply chain risks into simple trade policy models.
 
-The model has two sectors, an input $I$ and a final good $F$, and three countries, $A$, $B$ and $C$. Two-country models can understate the negative international spillovers from subsidies (Bown and Hillman, check). One country's subsidies can carve out a competitor's market share in a third country to which they both export. Here, $C$ does not produce either good, but represents the third market where $A$ and $B$ compete, thereby capturing some of these spillovers. It proceeds in two stages. 
+The model has two sectors, an input $I$ and a final good $F$, and three countries, $A$, $B$ and $C$. Two-country models miss some of the potential negative international spillovers from subsidies, generally finding them beneficial for trading partners on net \parencite{bown_wtoing_2019}. One country's subsidies can carve out a competitor's market share in a third country to which they both export. Here, $C$ does not produce either good, but represents the third market where $A$ and $B$ compete, thereby capturing some of these spillovers. It proceeds in two stages.
 
 First, firms decide whether or not to enter the market for inputs. In doing so, they consider the prices they will face, which depend on policies, their risk of a disruption, the costs of trade and the price of raw materials. They also consider consumers' demand for the final product, which depends on incomes and the elasticity of substitution between domestic and foreign goods. To enter the market, they need to pay an entry cost $\kappa$ and purchase raw materials on a global exchange at price $p_r$, taken as given. If their expected profits are positive, they will enter.
 
@@ -126,7 +130,7 @@ Once they have entered, whether or not they produce and sell inputs depends on a
 
 After the entry process, prices are considered set, and production occurs. The input producers purchase raw materials and either make inputs or experience disruption. These inputs are sold to firms in the final good sector in countries $A$ and $B$, transformed into final goods, then sold to customers in countries $A$, $B$ and $C$. Welfare is evaluated based on consumption of the final good and income after any revenue from tariffs or costs of subsidies have been accounted for.
 
-Cite Melitz and Redding (2014). Model of sequential production with a similar setup that shows how trade creates a reorganisation of production that boosts domestic productivity, with productivity increasing with the number of stages. The setup is also similar to that of \textcite{bagwell_chapter_2016} and \textcite{venables_trade_1987}.
+Cite \textcite{melitz_missing_2014}. Model of sequential production with a similar setup that shows how trade creates a reorganisation of production that boosts domestic productivity, with productivity increasing with the number of stages. The setup is also similar to that of \textcite{bagwell_design_2016} and \textcite{venables_trade_1987}.
 
 \subsection{Consumers}
  
@@ -159,7 +163,7 @@ Using the price index in (\ref{eq:pbar_f}), demand for final goods produced in c
 For simplicity, we assume the elasticity is constant across all stages of production, though it could be allowed to vary. Our baseline considers an elasticity $\sigma$ equal to 5.
 
 Welfare is evaluated, among other measures, using the indirect utility function
-\begin{equation}
+\begin{equation} \label{eq:value}
     V_j = I_j \bar{P}_{Fj}
 \end{equation}
 where $I_j$ equals $M_j$ plus any net revenue from tariffs, costs from subsidies, and any profits in the input sector in country $j$.
@@ -178,7 +182,7 @@ They sell these goods to consumers in the three countries. Their costs are
 \end{equation}
 where input trade costs $\bar{\tau}$ are defined analogously with the final good trade costs in (\ref{eq:tau}). 
 
-With perfect competition and constant returns to scale, price is equal to unit cost
+With perfect competition and constant returns to scale, price is equal to unit cost [note: this needs to be expressed as a price index, since input producers will 'take it as given' when determining their price]
 \begin{equation}
     p_{Fj} = \left[ ( p_{IA} \bar{\tau}_{IAj} )^{1 - \sigma} + ( p_{IB} \bar{\tau}_{IBj} )^{1 - \sigma}) \right]^{\frac{1}{1 - \sigma}}
 \end{equation}
@@ -201,13 +205,13 @@ where $r_i$ is the quantity of raw materials purchased by each firm. Prospective
 \end{equation}
 where $s_{Ii}$ is an optional specific production subsidy, applied per unit of input produced by firms in country $i$. $e_i$ is the rate of an optional entry subsidy and $\kappa$ is the fixed entry cost parameter. Once firms purchase raw materials, they may be used for production, but if there is a disruption, production cannot occur and the materials are sunk costs.
 
-Noting that the total quantity of inputs produced by country $i$ equals the sum of $x_{IiA}$ and $x_{IiB}$, we can substitute the conditional demands in (\ref{eq:input_demand}) into the profit function in (\ref{eq:input_profit}). Doing so and solving for the profit-maximising price yields
+Because the total quantity of inputs produced by country $i$ equals the sum of $x_{IiA}$ and $x_{IiB}$, we can substitute the conditional demands in (\ref{eq:input_demand}) into the expected profit function in (\ref{eq:input_profit}). Doing so and solving for the profit-maximising price, assuming that producers take price indexes as given, yields
 \begin{equation}
     p_{Ii} = \frac{\sigma}{\sigma - 1} \left( \frac{p_r}{1 - d_j} - s_{Ii} \right) .
 \end{equation}
-Based on this price, firms in each country enter sequentially until the expected profits from one additional firm turn negative, given the fixed entry cost. If expected profits are still negative with only one firm, that country will not produce any inputs. If firms in neither country expect a profit, no raw materials are purchased and nothing is produced.
+Based on this price, firms in each country enter sequentially until the expected profits from one additional firm turn negative, given the fixed entry cost $\kappa$. If expected profits are still negative with only one firm, that country will not produce any inputs. If firms in neither country expect a profit, no raw materials are purchased and nothing is produced.
 
-Because there is free entry up until raw materials are purchased, profits in the input sector are essentially negligible. Yet they may be slightly above zero because the number of firms is required to be an integer, so that the risk of disruption can be simulated for each firm. Accordingly, any profits are added to the value function above (ref) when computing welfare.
+Because there is free entry up until raw materials are purchased, expected profits in the input sector are essentially negligible. Yet they may be slightly above zero because the number of firms is required to be an integer, so that the risk of disruption can be simulated for each firm. Accordingly, any profits are included in the value function (\ref{eq:value}) when computing welfare.
 
 \subsection{Simulation of policies}
 
@@ -266,7 +270,7 @@ In other words, $\mathbb{P}(\text{Shortfall}) = \mathbb{P} (X / \mathbb{E}(X_0) 
     \end{threeparttable}
 \end{table}
 
-Note that with entry subsidies, expected consumption and expected production are unchanged, since marginal revenues and costs are the same. The range, however, does change as more firms enter and spread risk. The small symmetric subsidy provides a greater reduction in variation than the large unilateral one, and at lower total subsidy cost ($0.2 \times 8 < 0.4 \times 5$). Global expected welfare and the number of entrants are the same. 
+Note that with entry subsidies, expected consumption and expected production are unchanged, since marginal revenues and costs are the same. The range, however, does change as more firms enter and spread risk. The small symmetric subsidy provides a greater reduction in variation than the large unilateral one, and at lower total subsidy cost (show this). Global expected welfare and the number of entrants are the same.
 
 \begin{table}
     \centering
@@ -322,9 +326,13 @@ Note that with entry subsidies, expected consumption and expected production are
     \end{threeparttable}
 \end{table}
 
-Briefly note that there is a very small symmetric entry subsidy that raises global welfare, along the lines of Bagwell and Lee (2018), but there is no impact on resilience in this model since it is not large enough to induce entry.
+Briefly note that there is a very small symmetric entry subsidy that raises global welfare, along the lines of Bagwell and Lee (2018 cite!), but there is no impact on resilience in this model since it is not large enough to induce entry.
 
-None of the input production subsidies were very good for resilience. They do tend to enhance global welfare, noting that in this simple example, they are not drawing resources from elsewhere in the economy. Under unilateral subsidies, the variation of production tended to increase compared to the no-subsidy case.
+None of the input production subsidies were very good for reducing variance, though they unambiguously increase expected supply. In some cases, unilateral subsidies may reduce variability by inducing another firm to enter (see column 2), but as subsidies grow, these gains will be offset by firms in the competing country exiting as they become uncompetitive. The subsidies do tend to enhance global welfare---up to a certain rate, after which welfare declines---noting that in this simple example, they are not drawing resources from other final sectors.
+
+[insert chart on how global welfare rises then falls with the size of subsidies. line chart with two lines --- one for unilateral, one for symmetric]
+
+Most interesting thing about tariffs is the prisoner's dilemma: like classic example, but now with resilience dimension. Retaliation, which is to be expected, takes supply variation back to square one. Reduced variation after unilateral tariff is perplexing, illustrates an imbalance effect (explain). Even small tariffs are welfare-reducing globally.
 
 \begin{table}
     \centering
@@ -342,7 +350,7 @@ None of the input production subsidies were very good for resilience. They do te
             & $t_B = 0$ & $t_B = 0$ & $t_B = 0$ & $t_B = 0.1$ & $t_B = 0.2$\\
             \midrule
             \textbf{Country A} \\
-            Input producers & 2 & 2 & 3 & 2 & 2 \\ 
+            Input producers & 2 & 2 & 3 & 2 & 2 \\
             $\mathbb{E}(V_A)$ & 20.05 & 20.64 & 19.02 & 19.95 & 19.72 \\
             $\mathbb{E}(Q_{IA})$ & 19.66 & 21.03 & 21.99 & 19.29 & 19.19 \\
             $\mathbb{E}(Q_{FA})$ & 23.25 & 20.97 & 19.42 & 22.46 & 21.92 \\
@@ -380,7 +388,9 @@ None of the input production subsidies were very good for resilience. They do te
     \end{threeparttable}
 \end{table}
 
-Reduced variation after tariff is introduced could be due to a shift in resources from the final sector and consumers to the input-producing sector. The final sector doesn't face disruption. Think about this more tomorrow. Maybe not: could be the imbalance effect?
+Explain what's happening with the export bans and another firm in Country A enters. Slightly counterintuitive. Go step by step (i.e. what happens to Country B, what happens to prices.)
+
+If countries act solely to maximise resilience, then under certain conditions, banning exports of inputs takes on characteristics of a zero-sum game---if in the absence of an agreement to refrain from these bans. Less prisoner's dilemma and more matching pennies. The mixed strategy Nash equilibrium, based on the Table \ref{tab:export_ban} numbers for shortfall probability, is inefficient for both A and B, with the average shortfall probability exceeding that in the case with no bans. If resilience is not an objective, and only welfare matters, export bans will not eventuate. Suggests inefficacy of export bans for resilience and grounds for disciplines.
 
 \begin{table}
     \centering
@@ -429,66 +439,38 @@ Reduced variation after tariff is introduced could be due to a shift in resource
             \bottomrule
         \end{tabular}
         \begin{tablenotes}
-            \small \item Note: Calculated with $p_R = 0.5$, $\sigma = 5$, $\tau = 0.1$, $\kappa = 1$ and $d_A = d_B = 0.1$. Income for all countries is set to 10. Variation and probability are based on 30 samples of 20,000 simulations each. Bootstrap standard errors all $<0.01\%$. `Shortfall' defined as supply below half of the free trade expected level. 
+            \small \item Note: Calculated with $p_R = 0.5$, $\sigma = 5$, $\tau = 0.1$, $\kappa = 1$ and $d_A = d_B = 0.1$. Income for all countries is set to 10. Variation and probability are based on 30 samples of 20,000 simulations each. Bootstrap standard errors all $<0.01\%$.
         \end{tablenotes}
     \end{threeparttable}
 \end{table}
 
-If countries act solely to maximise resilience, then under certain conditions, banning exports of inputs takes on characteristics of a zero-sum game, if in the absence of an agreement to refrain from these bans. Less prisoner's dilemma and more matching pennies. The mixed strategy Nash equilibrium, based on the Table \ref{tab:export_ban} numbers for shortfall probability, is inefficient for both A and B, with the average shortfall probability exceeding that in the case with no bans. If resilience is not an objective, and only welfare matters, export bans will not eventuate.
+\section{Towards principles for supply chain resilience policy}
 
-Policies to examine:
-\begin{itemize}
-    \item Entry subsidy $z$: traded input (i.e. reduce the entry cost $\kappa$ and subtract the difference from income) --- do this first to illustrate the market failure (i.e. there should be an optimal non-negative entry subsidy) 
-    \item Production subsidy $s$: final product, traded input, financed by tax 
-    \item Export bans on traded input --- save this for last; otherwise assume at least one firm is able to export 
-    \item Each of the above in cooperative vs. non-cooperative settings, i.e. is there a prisoner's dilemma? 
-\end{itemize}
+In a highly stylised setting, the last section demonstrated some mechanisms through which different industrial policies might affect the performance and resilience of supply chains, domestically and internationally. Better empirical understanding and measurement of the international spillovers caused by industrial policies, including in terms of domestic and global supply chain resilience, is a priority. (Acknowledge shipbuilding study, other Jukasz and co work on empirics of industrial policy as trailblazers.) 
 
-Criterions for resilience:
-\begin{itemize}
-    \item Utility
-    \item Expected supply
-    \item Variance of supply
-    \item Likelihood of supply falling below a critical value (e.g. below half of expected supply)
-\end{itemize}
+The research to date suggests there are a few policy rules-of-thumb for domestic and international policymakers with the objective of supply chain resilience.
 
-Conditions to examine (maybe if time):
-\begin{itemize}
-    \item Country-varying disruption risk (i.e. home or foreign is higher) and productivities
-    \item Differing levels of trade cost and elasticities of substitution (quick robustness check)
-\end{itemize}
+First, at a domestic level, any industrial policies aimed at improving supply chain resilience should be designed to support competition and avoid raising unnecessary barriers for new entrants. Fostering a competitive environment domestically means risk is spread more broadly and the persistence of bottlenecks is less likely.
 
-\section{Policy discussion}
+To enhance resilience, policymakers might favour policy instruments that encourage firm entry, while recognising the potential trade-off between resilience and productivity. Such instruments might include targeted tax incentives for new entrants in critical sectors, grants or loans for research and development in supply chain technologies, or streamlined regulatory processes for businesses addressing identified supply chain gaps. These measures can help diversify the supplier base and reduce dependency on a limited number of sources.
 
-Need better understanding of problem. Introduce green, amber, red light system for WTO. Use an organisation like IEA or OECD to identify vulnerabilities independently.
+Second and relatedly, the range of available policy instruments is remarkably broad and the right tool depends on the task at hand. For example, if seeking to ensure the reliable supply of a critical product, purchasing from a diverse portfolio of global and local suppliers might be more cost-effective than investing commensurately in domestic production capacity, depending on the sector. An emphasis on measurement and evaluation of these policies seems essentially no-regrets and would generate useful data.
 
-Case studies show that industrial policies can play a role in creating a new source of supply in a concentrated market. They can also lead to greater concentration. This greater concentration often lasts for a few years then dissipates. Often, the innovation that results from successful industrial policy diffuses across borders and production becomes diversified (though this requires the right trade and investment policy settings). Markets are rarely highly concentrated for extended periods as new entrants emerge. 
+Third, as the \textcite{productivity_commission_vulnerable_2021} point out, a focus on essential and vulnerable sectors is crucial when supply chain resilience is the primary goal. These sectors are the nexus in which there is most likely to be a gap between private risk management outcomes and public risk tolerances.
 
-Some potential policy implications from the literature and case studies: 
+Internationally, improving data collection on industrial policies and modelling their positive and negative spillovers is an important and rapidly growing space for researchers and policymakers. This effort can build upon existing work by organisations such as the OECD and WTO to provide more accurate empirical assessment of industrial policies in a fragmented global economy.
 
-Industrial policy will be most helpful for supply chain resilience if it does not prohibit new entrants and supports competition.  
+Tasking an organization with existing capacity in the area, such as the OECD, IEA, WTO, or potentially the Indo-Pacific Economic Framework (IPEF) in the future, with independently reporting on essential supply chains and identifying potential vulnerabilities could provide valuable insights for policymakers worldwide. This independent assessment can help inform both national and international policy decisions.
 
-Policies should be optimised to address a particular stated objective and consider the full set of possible instruments. E.g. for a critical good, would governments purchasing from a balanced portfolio of foreign suppliers be more cost-effective than building local production capacity? 
+The question of whether and how the world trading system should address supply chain resilience concerns depends as much on political and geopolitical contingencies than it does on economic welfare. The section above and conventional economic wisdom suggest that upstream export bans and local content requirements are inefficient means of attaining a secure supply. These measures are already in violation of WTO rules. The EU notably brought a case against Indonesia's raw materials export bans with both China and the United States as third parties---a case which is under appeal as of 2024.
 
-Target essential and vulnerable sectors, if supply chain resilience is the aim.  
+Greater political buy-in is evidently needed to adequately discourage these policies, probably via plurilateral arrangements and in exchange for accommodating other, less distorting (or indeed, net-beneficial) policies. To that end, developing and reinforcing guardrails against policies that remove sources of supply will be important if the performance and stability of GVCs is an objective. This could include restrictions on export bans outside of immediate critical shortages (e.g. food shortages), ensuring that countries do not exacerbate supply chain disruptions through unilateral actions. (Cite \textcite{bown_how_2023} here.) Since some export restrictions are inevitable on defence grounds, a negative-list approach to restrictions would be the way forward to minimise certainty.
 
-For resilience, favour policy instruments that encourage firm entry (recognising there may be a trade-off between resilience and productivity). [Discuss/list some of these instruments.] 
+Following the model of the WTO Agreement on Agriculture (EIF 1995) and as suggested by scholars like \textcite{aguayo_ayala_preserving_2005} and \textcite{bown_wtoing_2019}, promoting a `green, amber, red light' approach in the WTO could help manage supply chain-related policies more effectively. For example, policies that introduce a new source of supply for an extremely concentrated product---like solar PV wafers---using acceptable instruments could be classified as `green light', indicating their general acceptability within world trade rules.
 
-Build in measurement and evaluation.  
+\section{Conclusions}
 
-Some potential policy suggestions internationally:  
-
-Work towards better data collection (building e.g. on OECD and WTO work) on industrial policies and modelling of their international spillovers. 
-
-Similarly, task an organisation with existing capacity in the area (e.g. OECD, IEA, WTO; possibly IPEF in future) with independently reporting on essential supply chains and identifying potential vulnerabilities.  
-
-Following the Agreement on Agriculture and as suggested by \textcite{bown_wtoing_2019}, promote a ‘green/amber/red light’ approach in the WTO. Policies introducing a source of supply of an extremely concentrated product and using acceptable instruments may be ‘green light’. 
-
-Develop and reinforce guardrails against policies that remove sources of supply, e.g. export restrictions outside critical shortages.
-
-\section{Conclusion}
-
-Summarise conclusions and suggest directions for future research. Generalise the model: expand it to many stages and many countries. More studies like the shipbuilding one; more theoretical papers like Bimpikis et al; more CGE modelling with supply disruptions like Bonadio et al. More discussion among big powers on guardrails.
+Summarise conclusions and suggest directions for future research. The obvious immediate extension is to show policy outcomes formally, not just through simulations of specific cases. Generalise the model: it can be expanded to many stages and many countries and to different preference structures. Broadly, need more studies like the China shipbuilding one; more theoretical papers like Bimpikis et al; more GE modelling with supply disruptions like Bonadio et al. Helps understand size of spillovers. More disclosure of data. More discussion on IP guardrails and WTO reform.
 
 \printbibliography
 
