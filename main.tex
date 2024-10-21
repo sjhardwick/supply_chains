@@ -36,7 +36,7 @@
 
 \title{Global Implications of Industrial Policies for \\ Supply Chain Resilience\thanks{I am grateful to Jason Tabarias for helpful conversations and comments and to Owen Crofts and Tisha Shah for excellent research assistance.}}
 \author{Sam Hardwick}
-\date{Draft, not for circulation \\ Last updated 24 September 2024}
+\date{Draft, not for circulation \\ Last updated 22 October 2024}
 
 \begin{document}
 
@@ -149,17 +149,21 @@ The model proceeds as follows. First, firms decide whether or not to enter the m
 
 Once they have entered, whether or not they produce and sell inputs depends on a stochastic disruption risk, $d_j \in (0, 1)$. A firm in country $j$ will make inputs with probability $1 - d_j$, but if it is disrupted, it will not produce and the raw materials it purchased will be wasted. This process echoes the model of \textcite{bimpikis_supply_2019}.
 
-After the entry process, prices are considered set, and production occurs. Input producers purchase raw materials and either make inputs or experience a disruption. The inputs are sold to firms in the final good sector in countries $A$ and $B$, transformed into final goods, then sold to customers in countries $A$, $B$ and $C$. Welfare is evaluated based on consumption of the final good and income after any revenue from tariffs or costs of subsidies have been accounted for.
+After the entry process, prices are considered set, and production occurs. Input producers purchase raw materials and either make inputs or experience a disruption. The state $s \in S$ is realised at this point. Each state $s$ represents a different combination of firms that are disrupted or that successfully produce.
+
+The inputs are sold to firms in the final good sector in countries $A$ and $B$, transformed into final goods, then sold to customers in countries $A$, $B$ and $C$. Welfare is evaluated based on consumption of the final good and income after any revenue from tariffs or costs of subsidies have been accounted for.
 
 The model draws on that of \textcite{melitz_missing_2014}, who outline a simple model of sequential production that shows how trade can increase domestic productivity as the number of production stages increases. The setup and representation of profits are also similar to those of \textcite{venables_trade_1987} and \textcite{bagwell_design_2016}.
 
 \subsection{Consumers}
  
-Each country $j$ has a representative consumer with constant elasticity of substitution (CES) preferences. These consumers maximise utility given by
+Each country $j$ has a representative consumer with constant elasticity of substitution (CES) preferences. These consumers maximise expected utility given by
 \begin{equation}
-    U_j = \left[ (x_{FAj})^{\frac{\sigma - 1}{\sigma}} + (x_{FBj})^{\frac{\sigma - 1}{\sigma}} \right]^{\frac{\sigma}{\sigma - 1}}
+    \mathbb{E} \left[ U_j(s) \right] = \mathbb{E} \left[ x_{FAj}(s)^{\frac{\sigma - 1}{\sigma}} + x_{FBj}(s)^{\frac{\sigma - 1}{\sigma}} \right]^{\frac{\sigma}{\sigma - 1}}
 \end{equation}
-where $x_{Fij}$ represents consumption in country $j$ of final goods produced by country $k$. The elasticity of substitution between goods from different countries is $\sigma > 1$. Consumers face the budget constraint 
+where $x_{Fij}(s)$ represents consumption in country $j$ of final goods produced by country $i$. This level of consumption is contingent on the state of the world $s \in S$ which is realised once each input-producing firm is either disrupted or produces successfully. The elasticity of substitution between goods from different countries is $\sigma > 1$. 
+
+In all states, consumers face the budget constraint 
 \begin{equation}
     p_{FA} \bar{\tau}_{FAj} x_{FAj} + p_{FB} \bar{\tau}_{FBj} x_{FBj} \leq M_j
 \end{equation}
@@ -179,25 +183,27 @@ As shown by \textcite{dixit_monopolistic_1977}, a price index for final goods co
 \end{equation}
 Using the price index in (\ref{eq:pbar_f}), demand for final goods produced in country $k$ and consumed in country $j$ can be written as
 \begin{equation}
-    x_{Fij} = M_j \left( \frac{p_{Fij}}{\bar{P}_{Fj}} \right)^{-\sigma}  .
+    \mathbb{E} \left[ x_{Fij}(s) \right] = M_j \left( \frac{p_{Fi} \bar{\tau}_{Fij}}{\bar{P}_{Fj}^{1 - \sigma}}  \right)^{-\sigma} .
 \end{equation}
-For simplicity, we assume the elasticity is constant across all stages of production, though it could be allowed to vary. Our baseline considers an elasticity $\sigma$ equal to 5. A comprehensive survey of Armington elasticities posits a `best guess' of the range of empirical estimates at 2.5 to 5.1 with a median of 3.8 \parencite{bajzik_estimating_2020}. A value at the high end of that range was selected because we are interested in relatively specific, relatively similar varieties across the two countries.\footnote{While we do not include a sensitivity analysis here, a draft version of the model code is \href{https://github.com/sjhardwick/supply_chains}{available on GitHub}.}
+For simplicity, we assume the elasticity is constant across all stages of production. Our baseline considers an elasticity $\sigma$ equal to 5. A comprehensive survey of Armington elasticities posits a `best guess' of the range of empirical estimates at 2.5 to 5.1 with a median of 3.8 \parencite{bajzik_estimating_2020}. A value at the high end of that range was selected because we are interested in relatively specific, relatively similar varieties across the two countries.\footnote{While we do not include a sensitivity analysis here, a draft version of the model code is \href{https://github.com/sjhardwick/supply_chains}{available on GitHub}.}
 
-Welfare is evaluated using the indirect utility function
-\begin{equation} \label{eq:value}
-    V_j = I_j \bar{P}_{Fj}
+Expected welfare is defined as follows to reflect the range of potential consumption outcomes and account for potential risk aversion.
+\begin{equation} \label{eq:welfare}
+    \mathbb{E} \left[ W_j \right] = \left( \sum_{s \in S} \mathbb{P}(s) \left[ U_j(s) + \frac{R_j(s) - Z_j(s) + \Pi_{j}(s)}{\bar{P}_{Fj}} \right]^{1 - \gamma} \right)^{\frac{1}{1 - \gamma}} .
 \end{equation}
-where $I_j$ equals $M_j$ plus any net revenue from tariffs, costs from subsidies, and any profits in the input sector in country $j$. The final goods sector makes zero profit.
+$R_j(s)$ is total revenue from any import tariffs and $Z_j(s)$ the total cost of any production or entry subsidies. $\Pi_j(s)$ are total profits from the input-producing sector in country $j$ ?(the final goods sector makes zero profit). $\gamma$ is the coefficient of relative risk aversion. The agent is risk averse if $\gamma > 0$.
 
 \subsection{Final good sector}
 
-The final good sector consists of a single representative firm per country, one in country $A$ and one in country $B$. Country $C$ consumes final goods but does not produce them. Since we are interested in market imperfections upstream---supply chain disruptions---we assume perfect competition in the final good sector. Each firm in the sector sources a mix of domestic and foreign inputs and produces according to CES technology, given by
+The final good sector consists of a single representative firm per country, one in country $A$ and one in country $B$. Country $C$ consumes final goods but does not produce them. Since we are interested in market imperfections upstream---supply chain disruptions---we assume perfect competition in the final good sector. Each firm in the sector sources a mix of domestic and foreign inputs and produces according to CES technology. 
+
+For final good producers in country $j$, production is given by
 \begin{equation} \label{eq:prod_final}
-    Q_{Fj} = \left[ \left( x_{IAj} \right)^\frac{\sigma-1}{\sigma} + \left( x_{IBj} \right)^\frac{\sigma-1}{\sigma} \right]^\frac{\sigma}{\sigma-1}
+    Q_{Fj}(s) = \left[ x_{IAj}(s)^\frac{\sigma-1}{\sigma} + x_{IBj}(s)^\frac{\sigma-1}{\sigma} \right]^\frac{\sigma}{\sigma-1}
 \end{equation}
 where $x_{Iij}$ are inputs sourced by country $j$ from country $i$ for production of goods $Q_{Fj}$. 
 
-They sell these goods to consumers in the three countries. The firms' production costs are
+They sell these goods to consumers in the three countries. For firms in country $j$, the production costs are
 \begin{equation}
     C(Q_{Fj}) = p_{IA} \bar{\tau}_{IAj} x_{IAj} + p_{IB} \bar{\tau}_{IBj} x_{IBj}
 \end{equation}
@@ -205,11 +211,11 @@ where input trade costs $\bar{\tau}_{Iij}$ capture any tariffs and transport cos
 
 With perfect competition and constant returns to scale, price $p_{Fj}$ is equal to unit cost. We can also express this unit cost as a price index $\bar{P}_{Ij}$ for inputs, that is,
 \begin{equation}
-    \bar{P}_{Ij} = p_{Fj} = \left[ ( p_{IA} \bar{\tau}_{IAj} )^{1 - \sigma} + ( p_{IB} \bar{\tau}_{IBj} )^{1 - \sigma}) \right]^{\frac{1}{1 - \sigma}}
+    \bar{P}_{Ij} = p_{Fj} = \left[ ( p_{IA} \bar{\tau}_{IAj} )^{1 - \sigma} + ( p_{IB} \bar{\tau}_{IBj} )^{1 - \sigma} \right]^{\frac{1}{1 - \sigma}}
 \end{equation}
 with conditional demand for inputs then given by
 \begin{equation} \label{eq:input_demand}
-    x_{Iij} = Q_{Fj} \left( \frac{p_{Ii}}{\bar{P}_{Ij}} \right)^{-\sigma}.
+    x_{Iij}(s) = Q_{Fj}(s) \left( \frac{p_{Ii} \bar{\tau}_{Iij}}{\bar{P}_{Ij}} \right)^{-\sigma}.
 \end{equation}
 
 \subsection{Input sector}
@@ -222,17 +228,17 @@ Each firm's expected production can be written as
 \end{equation}
 where $r_i$ is the quantity of raw materials purchased by each firm. Prospective input producers decide whether to enter the market based on expected profits, which are given by
 \begin{equation} \label{eq:input_profit}
-    \mathbb{E} (\pi_{Ii}) = \max_{p_{Ii}} \left\{ (p_{Ii} + s_{Ii}) (1 - d_i) r_{i} - p_r r_i - (1 - e_i) \kappa \right\}
+    \mathbb{E} (\pi_{Ii}) = \max_{p_{Ii}} \left\{ (p_{Ii} + z_{Ii}) (1 - d_i) r_{i} - p_r r_i - (1 - e_i) \kappa \right\}
 \end{equation}
-where $s_{Ii}$ is an optional specific production subsidy, applied per unit of input produced by firms in country $i$. $e_i$ is the rate of an optional entry subsidy and $\kappa$ represents a fixed barrier to entry. Once firms purchase raw materials, the materials may be used for production, but if there is a disruption, production cannot occur and the materials are sunk costs.
+where $z_{Ii}$ is an optional specific production subsidy, applied per unit of input produced by firms in country $i$. $e_i$ is the rate of an optional entry subsidy and $\kappa$ represents a fixed barrier to entry. Once firms purchase raw materials, the materials may be used for production, but if there is a disruption, production cannot occur and the materials are sunk costs.
 
 Because the total quantity of inputs produced by country $i$ equals the sum of $x_{IiA}$ and $x_{IiB}$, we can substitute the conditional demands in (\ref{eq:input_demand}) into the expected profit function in (\ref{eq:input_profit}). Doing so and solving for the profit-maximising price, assuming that producers take price indexes as given, yields
 \begin{equation}
-    p_{Ii} = \frac{\sigma}{\sigma - 1} \left( \frac{p_r}{1 - d_j} - s_{Ii} \right) .
+    p_{Ii} = \frac{\sigma}{\sigma - 1} \left( \frac{p_r}{1 - d_j} - z_{Ii} \right) .
 \end{equation}
 Based on this price, firms in each country enter sequentially until the expected profits from one additional firm turn negative, given the fixed entry cost $\kappa$. If expected profits are still negative with only one firm, that country will not produce any inputs. If firms in neither country expect a profit, no raw materials are purchased and nothing is produced.
 
-Because there is free entry up until raw materials are purchased, expected profits in the input sector are essentially negligible. Yet they may be slightly above zero because the number of firms is required to be an integer, so that the risk of disruption can be simulated for each firm. Accordingly, any profits are included in the value function (\ref{eq:value}) when computing welfare.
+Because there is free entry up until raw materials are purchased, expected profits in the input sector are essentially negligible. Yet they may be slightly above zero because the number of firms is required to be an integer, so that the risk of disruption can be simulated for each firm. Accordingly, any profits are included in the welfare function (\ref{eq:welfare}).
 
 \subsection{Simulation of policies}
 
@@ -424,7 +430,7 @@ The fourth example is an export ban on inputs, shown in Table \ref{tab:export_ba
 
 Any export ban reduces expected welfare for all three countries. Behind this unsurprising result, there are some nuances. When country $A$ alone bans exports of inputs, its domestic production of inputs grows, perhaps counterintuitively. Because $B$ can no longer source foreign inputs, its production of final goods becomes much less efficient, causing $A$'s share of global final goods production to rise (in this example, to 65 per cent). To meet this greater demand, a new firm enters in $A$, but conditions are not yet bad enough for a firm in $B$ to drop out, resulting in more firms making fewer goods---and lower supply variation because risk is spread more widely. An extension would be to incorporate country-specific risk, not just firm-specific risk, and check if this type of result is still feasible.
 
-An implication of this result is that, if countries act solely to minimise variation or shortage probability for a critical final good, then under certain conditions, there will be a coordination failure. It is less `prisoner's dilemma' and more `game of chicken': the example in Table \ref{tab:export_ban} implies a mixed strategy Nash equilibrium with a higher expected probability of a shortage than would be the case under free trade. This makes the case for a trade agreement on risk-reducing grounds alone. If reducing shortage risk is not an objective, however, and only average welfare matters, export bans do not eventuate in this model.
+An implication of this result is that, if countries act solely to minimise variation or shortage probability for a critical final good, then under certain conditions, there will be a coordination failure. This makes the case for a trade agreement on risk-reducing grounds. If reducing shortage risk is not an objective, however, and only expected welfare matters, export bans do not eventuate in this model.
 
 \begin{table}
     \centering
