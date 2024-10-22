@@ -172,10 +172,10 @@ where $p_{Fi}$ is the price of final goods produced in country $i$ and $M_j$ is 
     \bar{\tau}_{Fij} =
     \begin{cases}
         1 &\text{if } i = j \\
-        (1 + t_{Fj})(1 + \tau) &\text{if } i \neq j
+        1 + t^{\text{imp}}_{Fj} + t^{\text{exp}}_{Fi} + \tau &\text{if } i \neq j
     \end{cases}
 \end{equation}
-where $t_{Fj}$ is the import tariff rate in country $j$, if one applies, and $\tau$ is a generic international trade cost, like freight. 
+where $t^{\text{imp}}_{Fj}$ is the import tariff rate in country $j$, $t^{\text{exp}}_{Fi}$ is the export tax rate in country $i$ (if either apply) and $\tau$ is a generic international trade cost, such as freight.
 
 As shown by \textcite{dixit_monopolistic_1977}, a price index for final goods consumed in country $j$ can be defined as
 \begin{equation} \label{eq:pbar_f}
@@ -189,9 +189,9 @@ For simplicity, we assume the elasticity is constant across all stages of produc
 
 Expected welfare is defined as follows to reflect the range of potential consumption outcomes and account for potential risk aversion.
 \begin{equation} \label{eq:welfare}
-    \mathbb{E} \left[ W_j \right] = \left( \sum_{s \in S} \mathbb{P}(s) \left[ U_j(s) + \frac{R_j(s) - Z_j(s) + \Pi_{j}(s)}{\bar{P}_{Fj}} \right]^{1 - \gamma} \right)^{\frac{1}{1 - \gamma}} .
+    \mathbb{E} \left( W_j \right) = \left( \sum_{s \in S} \mathbb{P}(s) \left[ U_j(s) + \frac{R_j(s) - Z_j(s)}{\bar{P}_{Fj}} \right]^{1 - \gamma} \right)^{\frac{1}{1 - \gamma}} .
 \end{equation}
-$R_j(s)$ is total revenue from any import tariffs and $Z_j(s)$ the total cost of any production or entry subsidies. $\Pi_j(s)$ are total profits from the input-producing sector in country $j$ ?(the final goods sector makes zero profit). $\gamma$ is the coefficient of relative risk aversion. The agent is risk averse if $\gamma > 0$.
+$R_j(s)$ is total revenue from any import tariffs and $Z_j(s)$ the total cost of any production or entry subsidies. $\gamma$ is the coefficient of relative risk aversion. The agent is risk averse if $\gamma > 0$.
 
 \subsection{Final good sector}
 
@@ -244,15 +244,13 @@ Because there is free entry up until raw materials are purchased, expected profi
 
 Once firms have procured raw materials, disruptions either occur or do not occur to each producer, and production begins. This section analyses four simple policy examples through simulations of this process: an entry subsidy, a specific production subsidy, a tariff on inputs, and an export ban on inputs. Since we are interested not just in expected welfare, but in the variation of outcomes, for each example we typically present the following indicators:
 \begin{itemize}
-    \item expected welfare, measured by indirect utility $\mathbb{E} (V_j)$, 
+    \item expected welfare, measured by $\mathbb{E} (W_{j})$ as defined in (\ref{eq:welfare}), 
     \item expected production of inputs $\mathbb{E} (Q_{Ii})$ and final goods $\mathbb{E} (Q_{Fi})$, 
-    \item expected consumption of final goods $\mathbb{E} (X_{Fj})$, 
-    \item the coefficient of variation (standard error of the mean divided by the mean) for the consumption of final goods $CV (X_{Fj})$, and
-    \item the probability of a shortage, which we define as a drop in consumption to less than half of the level that would be expected in the absence of any policy intervention.
+    \item expected consumption of final goods $\mathbb{E} (X_{Fj})$, and
+    \item the coefficient of variation (standard error of the mean divided by the mean) for the consumption of final goods $CV (X_{Fj})$.
 \end{itemize}
-In other words, $\mathbb{P}(\text{Shortage}) = \mathbb{P} (X / \mathbb{E}(X_0) < 0.5)$, where $X$ is actual consumption under the policy scenario of interest, and $\mathbb{E} (X_0)$ is expected consumption with no subsidies or trade restrictions.
 
-The first example, an entry subsidy, is shown in Table \ref{tab:entry_subsidy}. Since entry subsidies do not affect marginal revenues or costs, they do not change final production and consumption in this model, so these numbers are omitted from the table. The distribution of production and consumption, however, does change as more firms enter and spread risk. The small symmetric subsidy provides a greater reduction in variation than the large unilateral one, and at lower total subsidy cost ($0.2 \times 6$ firms $< 0.4 \times 4$ firms). While not shown in the table, a very small entry subsidy can increase welfare, in line with the results of Bagwell and Lee (2018), though it does not affect supply volatility because it is not large enough to induce additional entry. Consumers and final good producers in all countries benefit from lower volatility when new firms enter, but subsidising countries are ultimately worse off in expected value terms, because they have to pay for the policy.
+The first example, an entry subsidy, is shown in Table \ref{tab:entry_subsidy}. Since entry subsidies do not affect marginal revenues or costs, they do not change final production and consumption in this model, so these numbers are omitted from the table. The distribution of production and consumption, however, does change as more firms enter and spread risk. The small symmetric subsidy provides a greater reduction in variation than the large unilateral one, and at lower total subsidy cost ($0.2 \times 6$ firms $< 0.4 \times 4$ firms). While not shown in the table, a very small entry subsidy can increase welfare, in line with the results of \textcite{bagwell_trade_2018}, though it does not affect supply volatility because it is not large enough to induce additional entry. Consumers and final good producers in all countries benefit from lower volatility when new firms enter, but subsidising countries are ultimately worse off in expected value terms, because they have to pay for the policy.
 
 \begin{table}
     \centering
@@ -294,7 +292,7 @@ The first example, an entry subsidy, is shown in Table \ref{tab:entry_subsidy}. 
             \bottomrule
         \end{tabular}
         \begin{tablenotes}
-            \small \item Note: Calculated with $p_R = 0.5$, $\sigma = 5$, $\tau = 0.1$, $\kappa = 1$ and $d_A = d_B = 0.1$. Income for all countries is set to 10. Variation and probability are based on 30 samples of 20,000 simulations each. Bootstrap standard errors all $<0.01\%$.
+            \small \item Note: Calculated with $p_R = 0.5$, $\sigma = 5$, $\tau = 0.1$, $\kappa = 1$ and $d_A = d_B = 0.1$. Income for all countries is set to 10. Welfare and variation are based on 30 samples of 20,000 simulations each. Bootstrap standard errors all $<0.01\%$.
         \end{tablenotes}
     \end{threeparttable}
 \end{table}
@@ -350,7 +348,7 @@ In contrast to entry subsidies, production subsidies, shown in Table \ref{tab:in
             \bottomrule
         \end{tabular}
         \begin{tablenotes}
-            \small \item Note: Calculated with $p_R = 0.5$, $\sigma = 5$, $\tau = 0.1$, $\kappa = 1$ and $d_A = d_B = 0.1$. Income for all countries is set to 10. Variation and probability are based on 30 samples of 20,000 simulations each. Bootstrap standard errors all $<0.01\%$.
+            \small \item Note: Calculated with $p_R = 0.5$, $\sigma = 5$, $\tau = 0.1$, $\kappa = 1$ and $d_A = d_B = 0.1$. Income for all countries is set to 10. Welfare and variation are based on 30 samples of 20,000 simulations each. Bootstrap standard errors all $<0.01\%$.
         \end{tablenotes}
     \end{threeparttable}
 \end{table}
@@ -447,39 +445,39 @@ An implication of this result is that, if countries act solely to minimise varia
             \midrule
             \textbf{Country A} \\
             Input producers & 2 & 3 & 2 \\ 
-            $\mathbb{E}(V_A)$ & 20.05 & 18.82 & 17.77 \\
+            $\mathbb{E}(W_A | \gamma = 0)$ & 18.64 & x & x \\
+            $\mathbb{E}(W_A | \gamma = 5)$ & 14.22 & x & x \\
             $\mathbb{E}(Q_{IA})$ & 19.66 & 25.46 & 20.41 \\
             $\mathbb{E}(Q_{FA})$ & 23.25 & 28.99 & 20.41 \\
             $\mathbb{E}(X_{FA})$ & 15.80 & 15.45 & 13.87 \\
             $CV(X_{FA})$ & 17.50\% & 15.29\% & 17.13\% \\
-            $\mathbb{P}(\text{Shortage})$ & 2.00\% & 0.37\% & 4.46\% \\ 
             \midrule
             \textbf{Country B} \\
             Input producers & 2 & 2 & 2 \\
-            $\mathbb{E}(V_B)$ & 20.05 & 18.43 & 17.77 \\
+            $\mathbb{E}(W_B | \gamma = 0)$ & 18.64 & x & x \\
+            $\mathbb{E}(W_B | \gamma = 5)$ & 14.22 & x & x \\
             $\mathbb{E}(Q_{IB})$ & 19.66 & 18.52 & 20.41 \\
             $\mathbb{E}(Q_{FB})$ & 23.25 & 15.36 & 20.41 \\
             $\mathbb{E}(X_{FB})$ & 15.80 & 14.67 & 13.87 \\
             $CV(X_{FB})$ & 17.50\% & 15.55\% & 17.12\% \\
-            $\mathbb{P}(\text{Shortage})$ & 2.00\% & 1.60\% & 4.45\% \\ 
             \midrule
             \textbf{Country C} \\
-            $\mathbb{E}(V_C)$ & 17.73 & 16.75 & 15.57 \\
+            $\mathbb{E}(W_C | \gamma = 0)$ & 17.69 & x & x \\
+            $\mathbb{E}(W_C | \gamma = 5)$ & 13.52 & x & x \\
             $\mathbb{E}(X_{FC})$ & 14.91 & 14.23 & 13.09 \\
             $CV(X_{FC})$ & 17.49\% & 15.30\% & 16.68\% \\
-            $\mathbb{P}(\text{Shortage})$ & 2.00\% & 0.86\% & 5.26\% \\ 
             \midrule
             \textbf{All countries} \\
             Input producers & 4 & 5 & 4 \\
-            $\mathbb{E}(V)$ & 57.82 & 54.00 & 51.11 \\
+            $\mathbb{E}(W | \gamma = 0)$ & 54.97 & x & x \\
+            $\mathbb{E}(W | \gamma = 5)$ & 41.95 & x & x \\
             $\mathbb{E}(Q_I)$ & 39.32 & 43.97 & 40.83 \\
             $\mathbb{E}(Q_F)$ & 46.50 & 44.35 & 40.83 \\
             $CV(Q_F)$ & 17.49\% & 15.30\% & 16.68\% \\
-            $\mathbb{P}(\text{Shortage})$ & 2.00\% & 0.86\% & 5.26\% \\ 
             \bottomrule
         \end{tabular}
         \begin{tablenotes}
-            \small \item Note: Calculated with $p_R = 0.5$, $\sigma = 5$, $\tau = 0.1$, $\kappa = 1$ and $d_A = d_B = 0.1$. Income for all countries is set to 10. Variation and probability are based on 30 samples of 20,000 simulations each. Bootstrap standard errors all $<0.01\%$.
+            \small \item Note: Calculated with $p_R = 0.5$, $\sigma = 5$, $\tau = 0.1$, $\kappa = 1$ and $d_A = d_B = 0.1$. Income for all countries is set to 10. Welfare and variation are based on 30 samples of 30,000 simulations each. Bootstrap standard errors all $<0.05$ for welfare and $<0.01\%$ for CV.
         \end{tablenotes}
     \end{threeparttable}
 \end{table}
@@ -511,5 +509,60 @@ This paper explores the theoretical grounds, current implementation and internat
 \nocite{dcceew_department_of_climate_change_energy_the_environment_and_water_securing_2022}
 
 \printbibliography
+
+\begin{table}
+    \centering
+    \begin{threeparttable}
+        \renewcommand{\arraystretch}{1.2}
+        \caption{Export tax example}
+        \label{tab:input_tariff}
+        \vspace{1mm} 
+        \begin{tabular}{lrrrrr}
+            \toprule
+            & \multicolumn{5}{c}{Tax rate on exports of inputs} \\
+            & \makecell[c]{None} & \multicolumn{2}{c}{Unilateral} & \multicolumn{2}{c}{Symmetric} \\
+            \cmidrule{2-2} \cmidrule{3-4} \cmidrule{5-6}
+            & $t_A = 0$ & $t_A = 0.1$ & $t_A = 0.2$ & $t_A = 0.1$ & $t_A = 0.2$ \\
+            & $t_B = 0$ & $t_B = 0$ & $t_B = 0$ & $t_B = 0.1$ & $t_B = 0.2$\\
+            \midrule
+            \textbf{Country A} \\
+            Input producers & 2 & 2 & 3 & 2 & 2 \\
+            $\mathbb{E}(W_A | \gamma = 0)$ & x & x & x & x & x \\
+            $\mathbb{E}(W_A | \gamma = 5)$ & x & x & x & x & x \\
+            $\mathbb{E}(Q_{IA})$ & 19.66 & 21.03 & 21.99 & 19.29 & 19.19 \\
+            $\mathbb{E}(Q_{FA})$ & 23.25 & 20.97 & 19.42 & 22.46 & 21.92 \\
+            $\mathbb{E}(X_{FA})$ & 15.80 & 15.44 & 15.21 & 15.26 & 14.89 \\
+            $CV(X_{FA})$ & 17.50\% & 17.73\% & 15.40\% & 17.51\% & 17.43\% \\
+            \midrule
+            \textbf{Country B} \\
+            Input producers & 2 & 2 & 2 & 2 & 2 \\ 
+            $\mathbb{E}(W_B | \gamma = 0)$ & x & x & x & x & x \\
+            $\mathbb{E}(W_B | \gamma = 5)$ & x & x & x & x & x \\            
+            $\mathbb{E}(Q_{IB})$ & 19.66 & 17.95 & 16.91 & 19.29 & 19.19 \\
+            $\mathbb{E}(Q_{FB})$ & 23.25 & 24.80 & 25.90 & 22.46 & 21.92 \\
+            $\mathbb{E}(X_{FB})$ & 15.80 & 15.66 & 15.58 & 15.26 & 14.89 \\
+            $CV(X_{FB})$ & 17.50\% & 17.52\% & 15.40\% & 17.51\% & 17.43\% \\
+            \midrule
+            \textbf{Country C} \\
+            $\mathbb{E}(W_C | \gamma = 0)$ & x & x & x & x & x \\
+            $\mathbb{E}(W_C | \gamma = 5)$ & x & x & x & x & x \\            
+            $\mathbb{E}(X_{FC})$ & 14.91 & 14.68 & 14.53 & 14.41 & 14.06 \\
+            $CV(X_{FC})$ & 17.49\% & 17.61\% & 15.36\% & 17.46\% & 17.35\% \\
+            $\mathbb{P}(\text{Shortage})$ & 2.00\% & 1.18\% & 0.84\% & 2.02\% & 2.00\% \\ 
+            \midrule
+            \textbf{All countries} \\
+            Input producers & 4 & 4 & 5 & 4 & 4 \\
+            $\mathbb{E}(W | \gamma = 0)$ & x & x & x & x & x \\
+            $\mathbb{E}(W | \gamma = 5)$ & x & x & x & x & x \\
+            $\mathbb{E}(Q_I)$ & 39.32 & 38.97 & 38.90 & 38.57 & 38.38 \\
+            $\mathbb{E}(Q_F)$ & 46.50 & 45.77 & 45.32 & 44.93 & 43.84 \\
+            $CV(Q_F)$ & 17.49\% & 17.61\% & 15.36\% & 17.46\% & 17.35\% \\
+            \bottomrule
+        \end{tabular}
+        \begin{tablenotes}
+            \small \item Note: Calculated with $p_R = 0.5$, $\sigma = 5$, $\tau = 0.1$, $\kappa = 1$ and $d_A = d_B = 0.1$. Income for all countries is set to 10. Variation and probability are based on 30 samples of 20,000 simulations each. Bootstrap standard errors all $<0.01\%$.
+        \end{tablenotes}
+    \end{threeparttable}
+\end{table}
 
 \end{document}
