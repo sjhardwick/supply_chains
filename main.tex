@@ -143,17 +143,37 @@ The question of which policies, under which underlying conditions, should be exp
 
 The model below serves to illustrate potential spillovers from industrial policies for supply chain resilience by providing stylised examples. The aim is not to present sweeping policy conclusions but to highlight some mechanisms through which one country's policies might help or harm others' resilience, and areas where international cooperation may be needed to avoid lose--lose outcomes. It also provides a novel approach to integrating stochastic supply chain risks into simple trade policy models, one which may be generalised and adapted to other policy tools and scenarios.
 
+The model draws on that of \textcite{melitz_missing_2014} who show how trade can increase domestic productivity as the number of production stages increases. The setup and representation of profits are also similar to those of \textcite{venables_trade_1987} and \textcite{bagwell_design_2016}.
+
 The model has two sectors, an input $I$ and a final good $F$, and three countries, $A$, $B$ and $C$. We use three countries as two-country models miss some of the potential negative international spillovers from subsidies \parencite{bown_wtoing_2019}. One country's subsidies can carve out a competitor's market share in a third country to which they both export. Here, $C$ does not produce either good, but represents the third market where $A$ and $B$ compete, thereby capturing some of these spillovers. 
 
 The model proceeds as follows. First, firms decide whether or not to enter the market for inputs. In doing so, they consider the prices they will face, which depend on policies, their risk of a disruption, the costs of trade and the price of raw materials. They also consider consumers' demand for the final product, which depends on incomes and the elasticity of substitution between domestic and foreign goods. To enter the market, they need to pay an entry cost $\kappa$ and purchase raw materials on a global exchange at price $p_r$, taken as given. If their expected profits are positive, they will enter.
 
-Once they have entered, whether or not they produce and sell inputs depends on a stochastic disruption risk, $d_j \in (0, 1)$. A firm in country $j$ will make inputs with probability $1 - d_j$, but if it is disrupted, it will not produce and the raw materials it purchased will be wasted. This process echoes the model of \textcite{bimpikis_supply_2019}.
+Once they have entered, whether or not they produce and sell inputs depends on a stochastic disruption risk. A firm $k$ in country $j$ will make inputs with probability $\phi_{jk}$, but if it is disrupted, it will not produce and the raw materials it purchased will be wasted. This process echoes the model of \textcite{bimpikis_supply_2019}.
 
+Because supply chain risks tend to be geographically correlated, disruption risk is modelled with both country specific and idiosyncratic components. The probability of successful production can be defined as
+\begin{equation}\label{eq:phi}
+    \phi_{jk} = \mathbb{P}(\text{No disruption}) = 1 - \mathbb{P}(D_{j}) - \mathbb{P}(D_{k})  + \mathbb{P}_{k}(D_{j} \cap D_{k})
+\end{equation} 
+where $D_j$ represents the event of a country-wide disruption occurring in country $j$, drawn from a beta distribution,
+\begin{equation}\label{eq:pdj}
+    \mathbb{P}(D_{j}) \sim \text{beta}(\alpha_j, \beta_j)
+\end{equation}
+and $D_k$ represents the event of an idiosyncratic disruption occurring in firm $k$, independently of the country-wide disruption:
+\begin{equation}\label{eq:pdk}
+    \mathbb{P}(D_{k}) \sim \text{beta}(a, b).
+\end{equation}
+If $D_j$ occurs, then no firm in country $j$ will produce. If $D_k$ occurs, then firm $k$ will not produce.
+
+Based on (\ref{eq:phi}), (\ref{eq:pdj}) and (\ref{eq:pdk}), a firm's expected probability of successful production $\phi_{jk}$ is
+\begin{equation}\label{eq:ephi}
+    \mathbb{E} (\phi_{jk}) = \left(1 - \frac{\alpha_j}{\alpha_j + \beta_j}\right) \left(1 - \frac{a}{a + b}\right) .
+\end{equation}
 After the entry process, prices are considered set, and production occurs. Input producers purchase raw materials and either make inputs or experience a disruption. The state $s \in S$ is realised at this point. Each state $s$ represents a different combination of firms that are disrupted or that successfully produce.
 
-The inputs are sold to firms in the final good sector in countries $A$ and $B$, transformed into final goods, then sold to customers in countries $A$, $B$ and $C$. Welfare is evaluated based on consumption of the final good and income after any revenue from tariffs or costs of subsidies have been accounted for.
+The inputs are sold to firms in the final good sector in countries $A$ and $B$, transformed into final goods, then sold to customers in countries $A$, $B$ and $C$. We assume that if the quantity of inputs is higher or lower than expected pre-disruption, the inputs are still sold to customers in the same proportion. 
 
-The model draws on that of \textcite{melitz_missing_2014}, who outline a simple model of sequential production that shows how trade can increase domestic productivity as the number of production stages increases. The setup and representation of profits are also similar to those of \textcite{venables_trade_1987} and \textcite{bagwell_design_2016}.
+Welfare is evaluated based on consumption of the final good and income after any revenue from tariffs or costs of subsidies have been accounted for.
 
 \subsection{Consumers}
  
@@ -189,9 +209,9 @@ For simplicity, we assume the elasticity is constant across all stages of produc
 
 Expected welfare is defined as follows to reflect the range of potential consumption outcomes and account for potential risk aversion.
 \begin{equation} \label{eq:welfare}
-    \mathbb{E} \left( W_j \right) = \left( \sum_{s \in S} \mathbb{P}(s) \left[ U_j(s) + \frac{R_j(s) - Z_j(s)}{\bar{P}_{Fj}} \right]^{1 - \gamma} \right)^{\frac{1}{1 - \gamma}} .
+    \mathbb{E} \left( W_j \right) = \left( \sum_{s \in S} \mathbb{P}(s) \left[ U_j(s) \right]^{1 - \gamma} \right)^{\frac{1}{1 - \gamma}} + \sum_{s \in S} \mathbb{P}(s)\frac{R_j(s) - Z_j(s) - \Pi_j(s)}{\bar{P}_{Fj}}.
 \end{equation}
-$R_j(s)$ is total revenue from any import tariffs and $Z_j(s)$ the total cost of any production or entry subsidies. $\gamma$ is the coefficient of relative risk aversion. The agent is risk averse if $\gamma > 0$.
+$R_j(s)$ is total revenue from any import tariffs and $Z_j(s)$ the total cost of any production or entry subsidies. $\Pi_j(s)$ captures profits or losses from the input-producing sector. $\gamma$ is the coefficient of relative risk aversion. The agent is risk averse if $\gamma > 0$. If $\gamma = 0$, the function is equivalent to an expected indirect utility function with revenues and profits added.
 
 \subsection{Final good sector}
 
@@ -220,22 +240,24 @@ with conditional demand for inputs then given by
 
 \subsection{Input sector}
 
-Firms in the input sector procure raw materials, which are traded freely on a global commodity market at the price $p_r$. They transform these materials directly into inputs unless they experience a disruption. The probability of a disruption for firms in country $i$ is the parameter $d_i \in (0, 1)$. Other than disruption risk, which varies by country, input-producing firms face identical technologies and costs.
+Firms in the input sector procure raw materials, which are traded freely on a global commodity market at the price $p_r$. They transform these materials directly into inputs unless they experience a disruption. The probability of successful production for a given firm in country $i$ is $\phi_{i}$. Other than disruption risk, which varies by country, input-producing firms face identical technologies and costs.
 
 Each firm's expected production can be written as
 \begin{equation}
-    \mathbb{E} (q_{Ii}) = (1 - d_i) r_i
+    \mathbb{E} (q_{Ii}) = \mathbb{E} ( \phi_{i} ) r_i
 \end{equation}
 where $r_i$ is the quantity of raw materials purchased by each firm. Prospective input producers decide whether to enter the market based on expected profits, which are given by
 \begin{equation} \label{eq:input_profit}
-    \mathbb{E} (\pi_{Ii}) = \max_{p_{Ii}} \left\{ (p_{Ii} + z_{Ii}) (1 - d_i) r_{i} - p_r r_i - (1 - e_i) \kappa \right\}
+    \mathbb{E} (\pi_{Ii}) = \max_{p_{Ii}} \left\{ (p_{Ii} + z_{Ii}) \mathbb{E}(\phi_i) r_{i} - p_r r_i - (1 - e_i) \kappa \right\}
 \end{equation}
 where $z_{Ii}$ is an optional specific production subsidy, applied per unit of input produced by firms in country $i$. $e_i$ is the rate of an optional entry subsidy and $\kappa$ represents a fixed barrier to entry. Once firms purchase raw materials, the materials may be used for production, but if there is a disruption, production cannot occur and the materials are sunk costs.
 
 Because the total quantity of inputs produced by country $i$ equals the sum of $x_{IiA}$ and $x_{IiB}$, we can substitute the conditional demands in (\ref{eq:input_demand}) into the expected profit function in (\ref{eq:input_profit}). Doing so and solving for the profit-maximising price, assuming that producers take price indexes as given, yields
 \begin{equation}
-    p_{Ii} = \frac{\sigma}{\sigma - 1} \left( \frac{p_r}{1 - d_j} - z_{Ii} \right) .
+    p_{Ii} = \frac{\sigma}{\sigma - 1} \left( \frac{p_r}{\mathbb{E}(\phi_i)} - z_{Ii} \right)
 \end{equation}
+where $\mathbb{E}(\phi_i)$ is defined as in (\ref{eq:ephi}).
+
 Based on this price, firms in each country enter sequentially until the expected profits from one additional firm turn negative, given the fixed entry cost $\kappa$. If expected profits are still negative with only one firm, that country will not produce any inputs. If firms in neither country expect a profit, no raw materials are purchased and nothing is produced.
 
 Because there is free entry up until raw materials are purchased, expected profits in the input sector are essentially negligible. Yet they may be slightly above zero because the number of firms is required to be an integer, so that the risk of disruption can be simulated for each firm. Accordingly, any profits are included in the welfare function (\ref{eq:welfare}).
