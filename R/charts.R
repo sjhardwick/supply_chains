@@ -6,6 +6,8 @@ library(tidyverse)
 # load data
 load("~/Documents/supply_chains/data/gta.Rdata")
 gta <- master; rm(master)
+br_2 <- read_csv("output.csv")
+br_5 <- read_csv("output_gamma5.csv")
 
 # chart 1: number of new subsidies
 gta_1 <- gta %>% 
@@ -223,4 +225,112 @@ ssw_1 <- ssw_data %>%
 
 ssw_1
 ggsave("charts/welfare.pdf", width = 10, height = 10, units = "cm")
+
+# best responses
+br_swapped <- br_2 %>%
+  rename("tariff_b" = tariff_a,
+         "tariff_a" = tariff_b,
+         "welfare_b_2" = welfare_a,
+         "welfare_a_2" = welfare_b) %>%
+  select(-sum)
+
+br_aves_2 <- br_2 %>%
+  left_join(br_swapped, by = c("tariff_a", "tariff_b")) %>%
+  mutate(welfare_a = (welfare_a + welfare_a_2)/2,
+         welfare_b = (welfare_b + welfare_b_2)/2) %>%
+  select(tariff_a, tariff_b, welfare_a, welfare_b)
+
+brb_2 <- br_aves_2 %>%
+  group_by(tariff_a) %>%
+  slice_max(order_by = welfare_b, with_ties = FALSE)
+
+preferred_2 <- br_aves_2 %>%
+  filter(welfare_a > 19.13081 & welfare_b > 19.13081)
+
+br_5_swapped <- br_5 %>%
+  rename("tariff_b" = tariff_a,
+         "tariff_a" = tariff_b,
+         "welfare_b_2" = welfare_a,
+         "welfare_a_2" = welfare_b)
+
+br_aves_5 <- br_5 %>%
+  left_join(br_5_swapped, by = c("tariff_a", "tariff_b")) %>%
+  mutate(welfare_a = (welfare_a + welfare_a_2)/2,
+         welfare_b = (welfare_b + welfare_b_2)/2) %>%
+  select(tariff_a, tariff_b, welfare_a, welfare_b)
+
+brb_5 <- br_aves_5 %>%
+  group_by(tariff_a) %>%
+  slice_max(order_by = welfare_b, with_ties = FALSE)
+
+preferred_5 <- br_aves_5 %>%
+  filter(welfare_a > 15.01944 & welfare_b > 15.01944)
+
+# fit the loess model to B's best response (orange curve)
+loess_fit_2 <- loess(tariff_b ~ tariff_a, data = brb_2)
+loess_fit_5 <- loess(tariff_b ~ tariff_a, data = brb_5)
+
+# generate a smooth sequence of points for prediction
+tariff_a_seq <- seq(min(brb$tariff_a), max(brb$tariff_a), length.out = 500)
+fitted_values_2 <- predict(loess_fit_2, 
+                           newdata = data.frame(tariff_a = tariff_a_seq))
+fitted_values_5 <- predict(loess_fit_5, 
+                           newdata = data.frame(tariff_a = tariff_a_seq))
+
+# create a data frame with the original loess predictions
+fitted_data <- data.frame(
+  tariff_a = tariff_a_seq,
+  tariff_b_2 = fitted_values_2,
+  tariff_b_5 = fitted_values_5
+)
+
+# mirror the curve by swapping tariff_a and tariff_b
+mirrored_data <- data.frame(
+  tariff_a_2 = fitted_data$tariff_b_2,  # swap x and y
+  tariff_a_5 = fitted_data$tariff_b_5,
+  tariff_b = fitted_data$tariff_a
+)
+
+# plot the original and mirrored curves
+br_chart <- ggplot() +
+  # original loess curves
+  geom_point(data = fitted_data, 
+             aes(x = tariff_a, y = tariff_b_2), 
+             color = "#1f0874",
+             size = 0.5) +
+  geom_point(data = fitted_data, 
+             aes(x = tariff_a, y = tariff_b_5), 
+             color = "#1f0874",
+             size = 0.5) +
+  # mirrored curve
+  geom_point(data = mirrored_data, 
+             aes(x = tariff_a_2, y = tariff_b), 
+             color = "#897ec1", 
+             size = 0.5) +
+  geom_point(data = mirrored_data, 
+             aes(x = tariff_a_5, y = tariff_b), 
+             color = "#897ec1", 
+             size = 0.5) +
+  # most efficient bundle
+  annotate("point", x = 0.2, y = 0.2,
+           color = "#498500", 
+           size = 2) +
+  # line of preferred options
+  #geom_segment(aes(x = 0.1, y = 0.1, xend = 0.48, yend = 0.48),
+  #             colour = "#498500", linetype = 5,
+  #             size = 1) +
+  # annotations
+  annotate("text", x = 0.12, y = 0.16, 
+           label = "Mutually preferred", 
+           colour = "#498500", fontface = "bold") +
+  annotate("text", x = 0.61, y = 0.85, 
+           label = "A's best response", 
+           colour = "#897ec1", fontface = "bold") +
+  annotate("text", x = 0.85, y = 0.54, 
+           label = "B's best response", 
+           colour = "#1f0874", fontface = "bold") +
+  theme_minimal() +
+  labs(x = "A's tariff rate", y = "B's tariff rate")
+
+br_chart
 
