@@ -36,7 +36,7 @@
 
 \title{Global Implications of Industrial Policies for \\ Supply Chain Resilience\thanks{I am grateful to Jason Tabarias for helpful conversations and comments and to Owen Crofts and Tisha Shah for excellent research assistance.}}
 \author{Sam Hardwick}
-\date{Draft, not for circulation \\ Last updated 23 October 2024}
+\date{Draft, not for circulation \\ Last updated 12 November 2024}
 
 \begin{document}
 
@@ -151,23 +151,23 @@ The model proceeds as follows. First, firms decide whether or not to enter the m
 
 Once they have entered, whether or not they produce and sell inputs depends on a stochastic disruption risk. A firm $k$ in country $j$ will make inputs with probability $\phi_{jk}$, but if it is disrupted, it will not produce and the raw materials it purchased will be wasted. This process echoes the model of \textcite{bimpikis_supply_2019}.
 
-Because supply chain risks tend to be geographically correlated, disruption risk is modelled with both country specific and idiosyncratic components. The probability of successful production can be defined as
+Disruption risk is modelled with both country specific and idiosyncratic components. This reflects the fact that supply chain risks raised by policymakers are often geographically correlated, such as extreme weather events or geopolitically motivated trade curbs. The probability of no disruption, or the probability of successful production, can be defined as
 \begin{equation}\label{eq:phi}
-    \phi_{jk} = \mathbb{P}(\text{No disruption}) = 1 - \mathbb{P}(D_{j}) - \mathbb{P}(D_{k})  + \mathbb{P}_{k}(D_{j} \cap D_{k})
+    \phi_{hk} = \mathbb{P}(\text{No disruption}) = 1 - \mathbb{P}(D_{h}) - \mathbb{P}(D_{k})  + \mathbb{P}_{k}(D_{h} \cap D_{k})
 \end{equation} 
-where $D_j$ represents the event of a country-wide disruption occurring in country $j$, drawn from a beta distribution,
+where $D_h$ represents the event of a country-wide disruption occurring in country $h$, drawn from a beta distribution,
 \begin{equation}\label{eq:pdj}
-    \mathbb{P}(D_{j}) \sim \text{beta}(\alpha_j, \beta_j)
+    \mathbb{P}(D_{h}) \sim \text{beta}(\alpha_h, \beta_h)
 \end{equation}
 and $D_k$ represents the event of an idiosyncratic disruption occurring in firm $k$, independently of the country-wide disruption:
 \begin{equation}\label{eq:pdk}
     \mathbb{P}(D_{k}) \sim \text{beta}(a, b).
 \end{equation}
-If $D_j$ occurs, then no firm in country $j$ will produce. If $D_k$ occurs, then firm $k$ will not produce.
+If $D_h$ occurs, then no firm in country $h$ will produce. If $D_k$ occurs, then firm $k$ will not produce.
 
-Based on (\ref{eq:phi}), (\ref{eq:pdj}) and (\ref{eq:pdk}), a firm's expected probability of successful production $\phi_{jk}$ is
+Based on (\ref{eq:phi}), (\ref{eq:pdj}) and (\ref{eq:pdk}), the expected probability of successful production for a firm in country $h$, $\phi_h$ is
 \begin{equation}\label{eq:ephi}
-    \mathbb{E} (\phi_{jk}) = \left(1 - \frac{\alpha_j}{\alpha_j + \beta_j}\right) \left(1 - \frac{a}{a + b}\right) .
+    \mathbb{E} (\phi_h) = \left(1 - \frac{\alpha_h}{\alpha_h + \beta_h}\right) \left(1 - \frac{a}{a + b}\right).
 \end{equation}
 After the entry process, prices are considered set, and production occurs. Input producers purchase raw materials and either make inputs or experience a disruption. The state $s \in S$ is realised at this point. Each state $s$ represents a different combination of firms that are disrupted or that successfully produce.
 
@@ -178,85 +178,101 @@ Welfare is evaluated based on consumption of the final good and income after any
 \subsection{Consumers}
  
 Each country $j$ has a representative consumer with constant elasticity of substitution (CES) preferences. These consumers maximise expected utility given by
-\begin{equation}
-    \mathbb{E} \left[ U_j(s) \right] = \mathbb{E} \left[ x_{FAj}(s)^{\frac{\sigma - 1}{\sigma}} + x_{FBj}(s)^{\frac{\sigma - 1}{\sigma}} \right]^{\frac{\sigma}{\sigma - 1}}
+\begin{equation} \label{eq:utility}
+    \mathbb{E}[U_j(s)] = \mathbb{E} \left( x_{0j}(s) + \frac{1}{\theta} \left[ \sum_{i \in (A, B)} x_{Fij}(s)^{\frac{\sigma - 1}{\sigma}} \right]^{\frac{\theta \sigma}{\sigma - 1}} \right)
 \end{equation}
-where $x_{Fij}(s)$ represents consumption in country $j$ of final goods produced by country $i$. This level of consumption is contingent on the state of the world $s \in S$ which is realised once each input-producing firm is either disrupted or produces successfully. The elasticity of substitution between goods from different countries is $\sigma > 1$. 
+where $x_{Fij}(s)$ represents consumption in country $j$ of critical final goods produced by country $i$. This level of consumption is contingent on the state of the world $s \in S$ which is realised once each input-producing firm is either disrupted or produces successfully. The elasticity of substitution between goods from different countries is $\sigma > 1$. Also $\theta \in (0, 1)$.
 
-In all states, consumers face the budget constraint 
-\begin{equation}
-    p_{FA} \bar{\tau}_{FAj} x_{FAj} + p_{FB} \bar{\tau}_{FBj} x_{FBj} \leq M_j
-\end{equation}
-where $p_{Fi}$ is the price of final goods produced in country $i$ and $M_j$ is income in country $j$. $\bar{\tau}_{Fij}$ captures trade costs faced by importers from $j$ of final goods from $i$. This term takes the value 
+Consumers maximise expected utility subject to the budget constraint 
+\begin{equation*}
+    \mathbb{E} \left[ x_{0j}(s) + \sum_{i \in (A, B)} p_{Fi} \bar{\tau}_{Fij} x_{Fij}(s) \right] \leq \mathbb{E} \left[ M_j(s) \right] = L_j + \mathbb{E} \left[ R_j(s) + Z_j(s) + \Pi_j(s) \right],
+\end{equation*}
+where $p_{Fi}$ is the price of final goods produced in country $i$ and $M_j$ is income in country $j$. $L_j$ is labour income, normalised to one; $R_j(s)$ is total revenue from any import tariffs and $Z_j(s)$ the total cost of any production or entry subsidies. $\Pi_j(s)$ captures net profits from the input-producing sector.
+
+$\bar{\tau}_{Fij}$ captures trade costs faced by importers from $j$ of final goods from $i$. This term takes the value 
 \begin{equation} \label{eq:tau}
     \bar{\tau}_{Fij} =
     \begin{cases}
         1 &\text{if } i = j \\
-        1 + t^{\text{imp}}_{Fj} + t^{\text{exp}}_{Fi} + \tau &\text{if } i \neq j
+        1 + t^{\text{imp}}_{Fj} + t^{\text{exp}}_{Fi} + \tau &\text{if } i \neq j,
     \end{cases}
 \end{equation}
 where $t^{\text{imp}}_{Fj}$ is the import tariff rate in country $j$, $t^{\text{exp}}_{Fi}$ is the export tax rate in country $i$ (if either apply) and $\tau$ is a generic international trade cost, such as freight.
 
 As shown by \textcite{dixit_monopolistic_1977}, a price index for final goods consumed in country $j$ can be defined as
 \begin{equation} \label{eq:pbar_f}
-      \bar{P}_{Fj} = \left[ (p_{FA} \bar{\tau}_{FAj} )^{1-\sigma} +  (p_{FB} \bar{\tau}_{FBj})^{1-\sigma} \right]^\frac{1}{1-\sigma} .
+      \bar{P}_{Fj} = \left[ \sum_{i\in(A,B)} (p_{Fi} \bar{\tau}_{Fij} )^{1-\sigma} \right]^\frac{1}{1-\sigma} .
 \end{equation}
-Using the price index in (\ref{eq:pbar_f}), demand for final goods produced in country $k$ and consumed in country $j$ can be written as
-\begin{equation}
-    \mathbb{E} \left[ x_{Fij}(s) \right] = M_j \left( \frac{p_{Fi} \bar{\tau}_{Fij}}{\bar{P}_{Fj}^{1 - \sigma}}  \right)^{-\sigma} .
-\end{equation}
+Using the price index in (\ref{eq:pbar_f}), expected demand for final goods produced in country $k$ and consumed in country $j$ can be written as
+\begin{equation*}
+    \mathbb{E}(x_{Fij}) = \left( p_{Fi} \bar{\tau}_{Fij} \right)^{-\sigma} \bar{P}_{Fj}^{\frac{\sigma(1 - \theta) - 1}{1 - \theta}} .
+\end{equation*}
+The consumer's remaining income is spent on the numeraire good, with price set to one, for which expected demand can be written as
+\begin{equation*}
+    \mathbb{E}(x_{0j}) = \mathbb{E}(M_j) - \bar{P}^\frac{-\theta}{1 - \theta} .
+\end{equation*}
+Consumers may not get the quantity they expect because of shocks. Once shocks have occurred, producers use the inputs available and sell final goods to each country in proportion to their demand.
+\begin{equation*}
+    x_{Fij}(s) = \frac{\mathbb{E}(x_{Fij})}{\sum_{j'\in(A,B,C)} \mathbb{E}(x_{Fij'})} \cdot Q_{Fi}(s)
+\end{equation*}
+where $Q_{Fi}(s)$ is total output of final goods from producers in country $i$, defined in the next section. Consumption of the numeraire good is then computed as total income, less expenditure on the critical good.
+\begin{equation*}
+    x_{0j}(s) = M_j(s) - \sum_{i\in(A,B,C)} p_{Fi} \bar{\tau}_{Fij} x_{Fij}(s).
+\end{equation*}
 For simplicity, we assume the elasticity is constant across all stages of production. Our baseline considers an elasticity $\sigma$ equal to 5. A comprehensive survey of Armington elasticities posits a `best guess' of the range of empirical estimates at 2.5 to 5.1 with a median of 3.8 \parencite{bajzik_estimating_2020}. A value at the high end of that range was selected because we are interested in relatively specific, relatively similar varieties across the two countries.\footnote{While we do not include a sensitivity analysis here, a draft version of the model code is \href{https://github.com/sjhardwick/supply_chains}{available on GitHub}.}
 
-Expected welfare is defined as follows to reflect the range of potential consumption outcomes and account for potential risk aversion.
+Expected welfare is defined as follows to reflect the range of potential consumption outcomes and account for potential risk aversion in the traded good.
 \begin{equation} \label{eq:welfare}
-    \mathbb{E} \left( W_j \right) = \left( \sum_{s \in S} \mathbb{P}(s) \left[ U_j(s) \right]^{1 - \gamma} \right)^{\frac{1}{1 - \gamma}} + \sum_{s \in S} \mathbb{P}(s)\frac{R_j(s) - Z_j(s) - \Pi_j(s)}{\bar{P}_{Fj}}.
+    \mathbb{E} \left( W_j \right) = \sum_{s \in S} \mathbb{P}(s) x_{0j}(s) + \frac{1}{\theta} \left( \sum_{s \in S} \mathbb{P}(s) \left[ \sum_{i \in (A, B)} x_{Fij}(s)^{\frac{\sigma - 1}{\sigma}} \right]^{\frac{\theta \sigma (1 - \gamma)}{\sigma - 1}} \right)^{\frac{1}{1 - \gamma}}.
 \end{equation}
-$R_j(s)$ is total revenue from any import tariffs and $Z_j(s)$ the total cost of any production or entry subsidies. $\Pi_j(s)$ captures profits or losses from the input-producing sector. $\gamma$ is the coefficient of relative risk aversion. The agent is risk averse if $\gamma > 0$. If $\gamma = 0$, the function is equivalent to an expected indirect utility function with revenues and profits added.
+$\gamma \neq 1$ is the coefficient of relative risk aversion. The agent is risk averse if $\gamma > 0$. If $\gamma = 0$, the function is equivalent to the consumer's expected utility in (\ref{eq:utility}). Risk aversion is included to capture negative externalities from volatile supply, that is, if social risk tolerance exceeds private risk tolerance.
+
+[Note any assumptions required for price to be greater than zero.]
 
 \subsection{Final good sector}
 
-The final good sector consists of a single representative firm per country, one in country $A$ and one in country $B$. Country $C$ consumes final goods but does not produce them. Since we are interested in market imperfections upstream---supply chain disruptions---we assume perfect competition in the final good sector. Each firm in the sector sources a mix of domestic and foreign inputs and produces according to CES technology. 
+The final good sector consists of a single representative firm per country, one in country $A$ and one in country $B$. Country $C$ consumes final goods but does not produce them. Since we are interested in market imperfections upstream, we assume perfect competition in the final good sector. Each firm in the sector sources a mix of domestic and foreign inputs and produces according to CES technology.
 
-For final good producers in country $j$, production is given by
+For final good producers in country $i$, production is given by
 \begin{equation} \label{eq:prod_final}
-    Q_{Fj}(s) = \left[ x_{IAj}(s)^\frac{\sigma-1}{\sigma} + x_{IBj}(s)^\frac{\sigma-1}{\sigma} \right]^\frac{\sigma}{\sigma-1}
+    Q_{Fi}(s) = \left[ \sum_{h\in(A,B)} x_{Ihi}(s)^\frac{\sigma-1}{\sigma}  \right]^\frac{\sigma}{\sigma-1}
 \end{equation}
-where $x_{Iij}$ are inputs sourced by country $j$ from country $i$ for production of goods $Q_{Fj}$. 
+where $x_{Ihi}(s)$ are inputs sourced by country $i$ from country $h$ for production of goods $Q_{Fi}$ in state of the world $s$.
 
-They sell these goods to consumers in the three countries. For firms in country $j$, the production costs are
-\begin{equation}
-    C(Q_{Fj}) = p_{IA} \bar{\tau}_{IAj} x_{IAj} + p_{IB} \bar{\tau}_{IBj} x_{IBj}
-\end{equation}
-where input trade costs $\bar{\tau}_{Iij}$ capture any tariffs and transport costs and are defined analogously with those in (\ref{eq:tau}).
+The producers sell these goods to consumers in the three countries. For firms in country $j$, the production costs are
+\begin{equation*}
+    C(Q_{Fi}, s) = \sum_{h\in(A,B)} p_{Ih} \bar{\tau}_{Ihi} x_{Ihi}(s),
+\end{equation*}
+where input trade costs $\bar{\tau}_{Ihi}$ capture any tariffs and transport costs and are defined analogously with those in (\ref{eq:tau}).
 
-With perfect competition and constant returns to scale, price $p_{Fj}$ is equal to unit cost. We can also express this unit cost as a price index $\bar{P}_{Ij}$ for inputs, that is,
-\begin{equation}
-    \bar{P}_{Ij} = p_{Fj} = \left[ ( p_{IA} \bar{\tau}_{IAj} )^{1 - \sigma} + ( p_{IB} \bar{\tau}_{IBj} )^{1 - \sigma} \right]^{\frac{1}{1 - \sigma}}
-\end{equation}
+With perfect competition and constant returns to scale, price $p_{Fi}$ is equal to unit cost. We can also express this unit cost as a price index $\bar{P}_{Ii}$ for inputs, that is,
+\begin{equation*}
+    \bar{P}_{Ii} = p_{Fi} = \left[ \sum_{h\in(A,B)} ( p_{Ih} \bar{\tau}_{Ihi} )^{1 - \sigma} \right]^{\frac{1}{1 - \sigma}},
+\end{equation*}
 with conditional demand for inputs then given by
 \begin{equation} \label{eq:input_demand}
-    x_{Iij}(s) = Q_{Fj}(s) \left( \frac{p_{Ii} \bar{\tau}_{Iij}}{\bar{P}_{Ij}} \right)^{-\sigma}.
+    x_{Ihi}(s) = Q_{Fi}(s) \left( \frac{p_{Ih} \bar{\tau}_{Ihi}}{\bar{P}_{Ii}} \right)^{-\sigma}.
 \end{equation}
 
 \subsection{Input sector}
 
-Firms in the input sector procure raw materials, which are traded freely on a global commodity market at the price $p_r$. They transform these materials directly into inputs unless they experience a disruption. The probability of successful production for a given firm in country $i$ is $\phi_{i}$. Other than disruption risk, which varies by country, input-producing firms face identical technologies and costs.
+Firms in the input sector procure raw materials, which are traded freely on a global commodity market at the price $p_r$. They transform these materials directly into inputs unless they experience a disruption. The probability of successful production for a given firm in country $h$ is $\phi_{h}$. Other than disruption risk, which varies by country, input-producing firms face identical technologies and costs.
 
 Each firm's expected production can be written as
-\begin{equation}
-    \mathbb{E} (q_{Ii}) = \mathbb{E} ( \phi_{i} ) r_i
-\end{equation}
-where $r_i$ is the quantity of raw materials purchased by each firm. Prospective input producers decide whether to enter the market based on expected profits, which are given by
+\begin{equation*}
+    \mathbb{E} (q_{Ih}) = \mathbb{E} ( \phi_{h} ) r_h
+\end{equation*}
+where $r_h$ is the quantity of raw materials purchased by each entrant in country $h$. Prospective input producers decide whether to enter the market based on expected profits, which are given by
 \begin{equation} \label{eq:input_profit}
-    \mathbb{E} (\pi_{Ii}) = \max_{p_{Ii}} \left\{ (p_{Ii} + z_{Ii}) \mathbb{E}(\phi_i) r_{i} - p_r r_i - (1 - e_i) \kappa \right\}
+    \mathbb{E} (\pi_{Ih}) = \max_{p_{Ih}} \left\{ \left(p_{Ih} + z_h \right) \mathbb{E}(\phi_h) r_h - p_r r_h - (1 - e_h) \kappa \right\},
 \end{equation}
-where $z_{Ii}$ is an optional specific production subsidy, applied per unit of input produced by firms in country $i$. $e_i$ is the rate of an optional entry subsidy and $\kappa$ represents a fixed barrier to entry. Once firms purchase raw materials, the materials may be used for production, but if there is a disruption, production cannot occur and the materials are sunk costs.
+where $z_h$ is an optional specific production subsidy, applied per unit of input produced by firms in country $h$. $e_h$ is the rate of an optional entry subsidy and $\kappa$ represents a fixed barrier to entry. Once firms purchase raw materials, the materials may be used for production, but if there is a disruption, production cannot occur and the materials are sunk costs.
 
 Because the total quantity of inputs produced by country $i$ equals the sum of $x_{IiA}$ and $x_{IiB}$, we can substitute the conditional demands in (\ref{eq:input_demand}) into the expected profit function in (\ref{eq:input_profit}). Doing so and solving for the profit-maximising price, assuming that producers take price indexes as given, yields
-\begin{equation}
-    p_{Ii} = \frac{\sigma}{\sigma - 1} \left( \frac{p_r}{\mathbb{E}(\phi_i)} - z_{Ii} \right)
-\end{equation}
-where $\mathbb{E}(\phi_i)$ is defined as in (\ref{eq:ephi}).
+\begin{equation*}
+    p_{Ih} = \frac{\sigma}{\sigma - 1} \left( \frac{p_r}{\mathbb{E}(\phi_h)} - z_h \right),
+\end{equation*}
+where $\mathbb{E}(\phi_h)$ is defined as in (\ref{eq:ephi}).
 
 Based on this price, firms in each country enter sequentially until the expected profits from one additional firm turn negative, given the fixed entry cost $\kappa$. If expected profits are still negative with only one firm, that country will not produce any inputs. If firms in neither country expect a profit, no raw materials are purchased and nothing is produced.
 
@@ -538,7 +554,7 @@ This paper explores the theoretical grounds, current implementation and internat
         \renewcommand{\arraystretch}{1.2}
         \caption{Export tax example}
         \label{tab:input_tariff}
-        \vspace{1mm} 
+        \vspace{1mm}
         \begin{tabular}{lrrrrr}
             \toprule
             & \multicolumn{5}{c}{Tax rate on exports of inputs} \\
@@ -557,9 +573,9 @@ This paper explores the theoretical grounds, current implementation and internat
             $CV(X_{FA})$ & 17.50\% & 17.73\% & 15.40\% & 17.51\% & 17.43\% \\
             \midrule
             \textbf{Country B} \\
-            Input producers & 2 & 2 & 2 & 2 & 2 \\ 
+            Input producers & 2 & 2 & 2 & 2 & 2 \\
             $\mathbb{E}(W_B | \gamma = 0)$ & x & x & x & x & x \\
-            $\mathbb{E}(W_B | \gamma = 5)$ & x & x & x & x & x \\            
+            $\mathbb{E}(W_B | \gamma = 5)$ & x & x & x & x & x \\
             $\mathbb{E}(Q_{IB})$ & 19.66 & 17.95 & 16.91 & 19.29 & 19.19 \\
             $\mathbb{E}(Q_{FB})$ & 23.25 & 24.80 & 25.90 & 22.46 & 21.92 \\
             $\mathbb{E}(X_{FB})$ & 15.80 & 15.66 & 15.58 & 15.26 & 14.89 \\
@@ -567,10 +583,9 @@ This paper explores the theoretical grounds, current implementation and internat
             \midrule
             \textbf{Country C} \\
             $\mathbb{E}(W_C | \gamma = 0)$ & x & x & x & x & x \\
-            $\mathbb{E}(W_C | \gamma = 5)$ & x & x & x & x & x \\            
+            $\mathbb{E}(W_C | \gamma = 5)$ & x & x & x & x & x \\
             $\mathbb{E}(X_{FC})$ & 14.91 & 14.68 & 14.53 & 14.41 & 14.06 \\
             $CV(X_{FC})$ & 17.49\% & 17.61\% & 15.36\% & 17.46\% & 17.35\% \\
-            $\mathbb{P}(\text{Shortage})$ & 2.00\% & 1.18\% & 0.84\% & 2.02\% & 2.00\% \\ 
             \midrule
             \textbf{All countries} \\
             Input producers & 4 & 4 & 5 & 4 & 4 \\
