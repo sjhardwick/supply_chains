@@ -6,8 +6,10 @@ library(tidyverse)
 # load data
 load("~/Documents/supply_chains/data/gta.Rdata")
 gta <- master; rm(master)
-br_2 <- read_csv("output.csv")
+br_0 <- read_csv("output_gamma0.csv")
+br_2 <- read_csv("output_gamma2.csv")
 br_5 <- read_csv("output_gamma5.csv")
+br_10 <- read_csv("output_gamma10.csv")
 
 # chart 1: number of new subsidies
 gta_1 <- gta %>% 
@@ -271,7 +273,7 @@ loess_fit_2 <- loess(tariff_b ~ tariff_a, data = brb_2)
 loess_fit_5 <- loess(tariff_b ~ tariff_a, data = brb_5)
 
 # generate a smooth sequence of points for prediction
-tariff_a_seq <- seq(min(brb$tariff_a), max(brb$tariff_a), length.out = 500)
+tariff_a_seq <- seq(min(brb_2$tariff_a), max(brb_2$tariff_a), length.out = 500)
 fitted_values_2 <- predict(loess_fit_2, 
                            newdata = data.frame(tariff_a = tariff_a_seq))
 fitted_values_5 <- predict(loess_fit_5, 
@@ -296,24 +298,24 @@ br_chart <- ggplot() +
   # original loess curves
   geom_point(data = fitted_data, 
              aes(x = tariff_a, y = tariff_b_2), 
-             color = "#1f0874",
-             size = 0.5) +
+             color = "blue4",
+             size = 0.25) +
   geom_point(data = fitted_data, 
              aes(x = tariff_a, y = tariff_b_5), 
-             color = "#1f0874",
-             size = 0.5) +
+             color = "blue3",
+             size = 0.25) +
   # mirrored curve
   geom_point(data = mirrored_data, 
              aes(x = tariff_a_2, y = tariff_b), 
-             color = "#897ec1", 
-             size = 0.5) +
+             color = "purple4", 
+             size = 0.25) +
   geom_point(data = mirrored_data, 
              aes(x = tariff_a_5, y = tariff_b), 
-             color = "#897ec1", 
-             size = 0.5) +
+             color = "purple3", 
+             size = 0.25) +
   # most efficient bundle
   annotate("point", x = 0.2, y = 0.2,
-           color = "#498500", 
+           color = "green4", 
            size = 2) +
   # line of preferred options
   #geom_segment(aes(x = 0.1, y = 0.1, xend = 0.48, yend = 0.48),
@@ -321,16 +323,134 @@ br_chart <- ggplot() +
   #             size = 1) +
   # annotations
   annotate("text", x = 0.12, y = 0.16, 
-           label = "Mutually preferred", 
-           colour = "#498500", fontface = "bold") +
+           label = "Optimum", 
+           colour = "green4", fontface = "bold") +
   annotate("text", x = 0.61, y = 0.85, 
            label = "A's best response", 
-           colour = "#897ec1", fontface = "bold") +
+           colour = "purple4", fontface = "bold") +
   annotate("text", x = 0.85, y = 0.54, 
            label = "B's best response", 
-           colour = "#1f0874", fontface = "bold") +
+           colour = "blue4", fontface = "bold") +
   theme_minimal() +
   labs(x = "A's tariff rate", y = "B's tariff rate")
 
 br_chart
 
+####
+
+br_0 <- read_csv("output_gamma0.csv")
+br_2 <- read_csv("output_gamma2.csv")
+br_5 <- read_csv("output_gamma5.csv")
+br_10 <- read_csv("output_gamma10.csv")
+
+br_swapped_0 <- br_0 %>%
+  rename("tariff_b" = tariff_a, "tariff_a" = tariff_b,
+         "welfare_b" = welfare_a, "welfare_a" = welfare_b)
+
+br_swapped_2 <- br_2 %>%
+  rename("tariff_b" = tariff_a, "tariff_a" = tariff_b,
+         "welfare_b" = welfare_a, "welfare_a" = welfare_b)
+
+br_swapped_5 <- br_5 %>%
+  rename("tariff_b" = tariff_a, "tariff_a" = tariff_b,
+         "welfare_b" = welfare_a, "welfare_a" = welfare_b)
+
+br_swapped_10 <- br_10 %>%
+  rename("tariff_b" = tariff_a, "tariff_a" = tariff_b,
+         "welfare_b" = welfare_a, "welfare_a" = welfare_b)
+
+br_both_0 <- br_0 %>% bind_rows(br_swapped_0)
+br_both_2 <- br_2 %>% bind_rows(br_swapped_2)
+br_both_5 <- br_5 %>% bind_rows(br_swapped_5)
+br_both_10 <- br_10 %>% bind_rows(br_swapped_10)
+
+data <- br_both_0
+
+# Fit polynomial models for welfare_a and welfare_b
+model_A <- lm(welfare_a ~ poly(tariff_a, 4) + poly(tariff_b, 4) + tariff_a:tariff_b, data = data)
+model_B <- lm(welfare_b ~ poly(tariff_a, 4) + poly(tariff_b, 4) + tariff_a:tariff_b, data = data)
+
+# Check summaries of the models
+summary(model_A)
+summary(model_B)
+
+# Create a sequence of tariff values to predict responses
+tariff_seq <- seq(0, 1, length.out = 100)
+
+# Predict Player A's best responses given B's tariffs
+best_response_a <- sapply(tariff_seq, function(tb) {
+  optim(par = 0.5, fn = function(ta) -predict(model_A, newdata = data.frame(tariff_a = ta, tariff_b = tb)))$par
+})
+
+# Predict Player B's best responses given A's tariffs
+best_response_b <- sapply(tariff_seq, function(ta) {
+  optim(par = 0.5, fn = function(tb) -predict(model_B, newdata = data.frame(tariff_a = ta, tariff_b = tb)))$par
+})
+
+# Define a function to minimize the distance between the two best response curves
+objective <- function(par) {
+  ta <- par[1]
+  tb <- par[2]
+  
+  # Calculate deviations from best responses
+  dev_A <- ta - optim(par = 0.5, fn = function(x) -predict(model_A, newdata = data.frame(tariff_a = x, tariff_b = tb)))$par
+  dev_B <- tb - optim(par = 0.5, fn = function(x) -predict(model_B, newdata = data.frame(tariff_a = ta, tariff_b = x)))$par
+  
+  # Return the sum of squared deviations
+  return(dev_A^2 + dev_B^2)
+}
+
+# Use optim() to find the Nash equilibrium (intersection)
+nash_eq <- optim(par = c(0.5, 0.5), fn = objective, method = "L-BFGS-B", lower = c(0, 0), upper = c(1, 1))
+
+# print the Nash equilibrium tariffs
+cat("Nash Equilibrium Tariff A:", nash_eq$par[1], "\n")
+cat("Nash Equilibrium Tariff B:", nash_eq$par[2], "\n")
+
+# create data frames for both response curves
+response_data_a <- data.frame(tariff_b = tariff_seq, tariff_a = best_response_a, group = "A's Best Response")
+response_data_b <- data.frame(tariff_a = tariff_seq, tariff_b = best_response_b, group = "B's Best Response")
+
+# Combine both response curves into one data frame
+response_data <- rbind(response_data_a, response_data_b)
+
+# find the Nash equilibrium point (intersection of best responses)
+nash_eq <- data.frame(tariff_a = nash_eq$par[1], tariff_b = nash_eq$par[2])
+
+# Predict welfare for both countries at Nash equilibrium
+nash_welfare_a <- predict(model_A, newdata = nash_eq)
+nash_welfare_b <- predict(model_B, newdata = nash_eq)
+
+# generate a grid of tariff values and predict welfare
+grid <- expand.grid(
+  tariff_a = seq(0, 1, length.out = 100),
+  tariff_b = seq(0, 1, length.out = 100)
+)
+
+# Predict welfare for both countries on the grid
+grid$predicted_welfare_a <- predict(model_A, newdata = grid)
+grid$predicted_welfare_b <- predict(model_B, newdata = grid)
+
+# Step 3: Identify regions where both utilities exceed Nash equilibrium
+grid$above_nash <- with(grid, 
+                        predicted_welfare_a > nash_welfare_a & predicted_welfare_b > nash_welfare_b
+)
+data$above_nash <- with(data, 
+                        welfare_a > nash_welfare_a & welfare_b > nash_welfare_b
+)
+
+ggplot() +
+  # plot the shaded areas where both utilities are higher than nash
+  geom_tile(data = data, aes(x = tariff_a, y = tariff_b, fill = above_nash), alpha = 0.5) +
+  scale_fill_manual(values = c("FALSE" = "white", "TRUE" = "#69b3a2")) +  # Green for above Nash
+  # plot the best response curves
+  geom_line(data = response_data, aes(x = tariff_a, y = tariff_b, color = group), size = 1) +
+  # highlight the nash equilibrium
+  geom_point(data = nash_eq, aes(x = tariff_a, y = tariff_b), color = "red", size = 4) +
+  labs(
+    title = "Best Response Curves with Nash Equilibrium and Welfare Areas",
+    x = "Tariff A", y = "Tariff B", color = "Best Response", fill = "Above Nash Utility"
+  ) +
+  theme_minimal()
+
+symmetric <- br_both_0 %>% mutate(sum = welfare_a + welfare_b) %>% filter(tariff_a == tariff_b)
