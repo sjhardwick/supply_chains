@@ -185,7 +185,7 @@ points_to_plot <- bind_rows(
 points_to_plot <- points_to_plot %>%
   mutate(risk_type = case_when(
     str_detect(type, " symmetric") ~ "Country risk is symmetric",
-    str_detect(type, "asymmetric") ~ "Country A is riskier"
+    str_detect(type, "asymmetric") ~ "Country A risk higher than B"
   ))
 
 # Separate Pareto points and Nash points for ordering
@@ -196,23 +196,28 @@ nash_points <- points_to_plot %>% filter(str_detect(type, "Nash"))
 subsidy_nash <- ggplot() +
   # 45 degree line
   geom_abline(slope = 1, intercept = 0, linetype = "dotted", color = "lightgray", size = 0.7) +
-  # Add a "45 degree" marker
+  # add a "45 degree" marker
   annotate("text", x = 0.03, y = 0.06, label = "45-degree line", color = "gray30", size = 3, angle = 45) +
   geom_point(data = nash_points, aes(x = sub_A, y = sub_B, color = risk_type), 
              size = 3, shape = 16) +  # nash points (circles)
   geom_point(data = pareto_points, aes(x = sub_A, y = sub_B, color = risk_type), 
              size = 5, shape = 17) +  # efficient points (triangles)
-  # add "efficient" labels with lines pointing to efficient points
-  geom_label_repel(data = pareto_points, aes(x = sub_A, y = sub_B, label = "Efficient"), 
-                   color = "black", size = 4, nudge_x = 0.08, nudge_y = -0.03, 
-                   segment.color = "gray20", segment.size = 0.5, box.padding = 0.3,
-                   label.size = NA) +
+  # add a single label "Welfare maximising" pointing to both efficient points
+  annotate("text", x = 0.33, y = 0.05, 
+           label = "Highest welfare", color = "black", size = 4, hjust = 1.2) +
+  # lines pointing to triangles
+  geom_segment(aes(x = 0.1, y = 0.1,
+                   xend = 0.19, yend = 0.06), 
+               color = "gray20", size = 0.5) + 
+  geom_segment(aes(x = 0.2, y = 0.1,
+                   xend = 0.25, yend = 0.06), 
+               color = "gray20", size = 0.5) +
   scale_color_manual(values = c("Country risk is symmetric" = "#1b9377", 
-                                "Country A is riskier" = "#d95f02")) + 
+                                "Country A risk higher than B" = "#d95f02")) + 
   labs(
     x = "Subsidy level for Country A",
     y = "Subsidy level for Country B",
-    color = "Nash equilibrium when..."
+    color = "Nash equilibrium when:"
   ) +
   guides(
     color = guide_legend(
@@ -223,7 +228,6 @@ subsidy_nash <- ggplot() +
   theme(
     legend.position = c(0.04, 0.96),  # place legend inside plot area
     legend.justification = c(0, 1),
-    # legend.background = element_rect(fill = "white", color = NA),
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
     panel.grid.major.y = element_line(color = "gray80", size = 0.3, linetype = "solid"),
